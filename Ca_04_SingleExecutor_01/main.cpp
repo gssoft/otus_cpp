@@ -4,13 +4,13 @@
 #include "SingleExecutor.hpp"
 #include "ConsoleLogger.hpp"
 
-// Реализация SingleExecutor - Исполнитель с одним потоком
-// Реализация ConsoleLogger - Логер для регистрации сообщений в Консоли
-// Разделим Поведение (ConsoleLogger) и Исполнение (SingleExecutor)
+// Р РµР°Р»РёР·Р°С†РёСЏ SingleExecutor - РСЃРїРѕР»РЅРёС‚РµР»СЊ СЃ РѕРґРЅРёРј РїРѕС‚РѕРєРѕРј
+// Р РµР°Р»РёР·Р°С†РёСЏ ConsoleLogger - Р›РѕРіРµСЂ РґР»СЏ СЂРµРіРёСЃС‚СЂР°С†РёРё СЃРѕРѕР±С‰РµРЅРёР№ РІ РљРѕРЅСЃРѕР»Рё
+// Р Р°Р·РґРµР»РёРј РџРѕРІРµРґРµРЅРёРµ (ConsoleLogger) Рё РСЃРїРѕР»РЅРµРЅРёРµ (SingleExecutor)
 
 int main() {
-    ConsoleLogger logger;  // Реализация логгера
-    SingleExecutor executor(logger);  // Однопоточный исполнитель (Executor)
+    ConsoleLogger logger;  // Р РµР°Р»РёР·Р°С†РёСЏ Р»РѕРіРіРµСЂР°
+    SingleExecutor executor(logger);  // РћРґРЅРѕРїРѕС‚РѕС‡РЅС‹Р№ РёСЃРїРѕР»РЅРёС‚РµР»СЊ (Executor)
 
     executor.Start();
 
@@ -19,7 +19,7 @@ int main() {
     executor.Log(LogLevel::WARNING, "A warning occurred.");
     executor.Log(LogLevel::FATAL, "Fatal error encountered!");
 
-    std::this_thread::sleep_for(std::chrono::seconds(1));  // Подождём выполнения
+    std::this_thread::sleep_for(std::chrono::seconds(1));  // РџРѕРґРѕР¶РґС‘Рј РІС‹РїРѕР»РЅРµРЅРёСЏ
 
     executor.Stop();
     return 0;
