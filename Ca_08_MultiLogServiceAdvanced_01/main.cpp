@@ -8,63 +8,63 @@
 #include "MultiSequentialExecutor.hpp"
 
 /*
-    В предыдущем проекте мы остановились вот на этом
+    Р’ РїСЂРµРґС‹РґСѓС‰РµРј РїСЂРѕРµРєС‚Рµ РјС‹ РѕСЃС‚Р°РЅРѕРІРёР»РёСЃСЊ РІРѕС‚ РЅР° СЌС‚РѕРј
     MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
 
-    Но вдруг сюда неожиданно примчались всезнающие и особоодаренные люди (они очень долго на ассемблере писали)
-    и сказали, что все НЕПРАЛЬНА.
-    Все логеры - разные и имеют большую разницу в скорости логирования одной лог-записи.
-    Медленные Loggers (FileLogger и ConsoleLogger) будут тормозить быстрых.
-    Тем более, что надо еще DataBaseLogger, HttpLogger, GrpcLogger сделать - срочно, еще вчера.
-    И еще надо чтобы последовательный порядок лог-записей был.
-    Поэтому нам надо однопоточный <SingleThreadExecutor>  заменить на многоканальный MultiSequentialExecutor.
-    Придется сделать
-    Реализация ниже. Только благодаря нашей шаблонной магии мы меняем ссответсвующий компонент.
-    Мы изменили наименование wrapper c MultiLogService на MultiLogServiceAdvanced
-    и реализовали новый Executor: MultiSequentialExecutor - Многоканальный Последовательный Executor.
-    Каждому Логгеру выделяем свой собственный последовательный канал длл обособленного исплнения и
-    для сохранения последовательного порядка лог-записей.
+    РќРѕ РІРґСЂСѓРі СЃСЋРґР° РЅРµРѕР¶РёРґР°РЅРЅРѕ РїСЂРёРјС‡Р°Р»РёСЃСЊ РІСЃРµР·РЅР°СЋС‰РёРµ Рё РѕСЃРѕР±РѕРѕРґР°СЂРµРЅРЅС‹Рµ Р»СЋРґРё (РѕРЅРё РѕС‡РµРЅСЊ РґРѕР»РіРѕ РЅР° Р°СЃСЃРµРјР±Р»РµСЂРµ РїРёСЃР°Р»Рё)
+    Рё СЃРєР°Р·Р°Р»Рё, С‡С‚Рѕ РІСЃРµ РќР•РџР РђР›Р¬РќРђ.
+    Р’СЃРµ Р»РѕРіРµСЂС‹ - СЂР°Р·РЅС‹Рµ Рё РёРјРµСЋС‚ Р±РѕР»СЊС€СѓСЋ СЂР°Р·РЅРёС†Сѓ РІ СЃРєРѕСЂРѕСЃС‚Рё Р»РѕРіРёСЂРѕРІР°РЅРёСЏ РѕРґРЅРѕР№ Р»РѕРі-Р·Р°РїРёСЃРё.
+    РњРµРґР»РµРЅРЅС‹Рµ Loggers (FileLogger Рё ConsoleLogger) Р±СѓРґСѓС‚ С‚РѕСЂРјРѕР·РёС‚СЊ Р±С‹СЃС‚СЂС‹С….
+    РўРµРј Р±РѕР»РµРµ, С‡С‚Рѕ РЅР°РґРѕ РµС‰Рµ DataBaseLogger, HttpLogger, GrpcLogger СЃРґРµР»Р°С‚СЊ - СЃСЂРѕС‡РЅРѕ, РµС‰Рµ РІС‡РµСЂР°.
+    Р РµС‰Рµ РЅР°РґРѕ С‡С‚РѕР±С‹ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅС‹Р№ РїРѕСЂСЏРґРѕРє Р»РѕРі-Р·Р°РїРёСЃРµР№ Р±С‹Р».
+    РџРѕСЌС‚РѕРјСѓ РЅР°Рј РЅР°РґРѕ РѕРґРЅРѕРїРѕС‚РѕС‡РЅС‹Р№ <SingleThreadExecutor>  Р·Р°РјРµРЅРёС‚СЊ РЅР° РјРЅРѕРіРѕРєР°РЅР°Р»СЊРЅС‹Р№ MultiSequentialExecutor.
+    РџСЂРёРґРµС‚СЃСЏ СЃРґРµР»Р°С‚СЊ
+    Р РµР°Р»РёР·Р°С†РёСЏ РЅРёР¶Рµ. РўРѕР»СЊРєРѕ Р±Р»Р°РіРѕРґР°СЂСЏ РЅР°С€РµР№ С€Р°Р±Р»РѕРЅРЅРѕР№ РјР°РіРёРё РјС‹ РјРµРЅСЏРµРј СЃСЃРѕС‚РІРµС‚СЃРІСѓСЋС‰РёР№ РєРѕРјРїРѕРЅРµРЅС‚.
+    РњС‹ РёР·РјРµРЅРёР»Рё РЅР°РёРјРµРЅРѕРІР°РЅРёРµ wrapper c MultiLogService РЅР° MultiLogServiceAdvanced
+    Рё СЂРµР°Р»РёР·РѕРІР°Р»Рё РЅРѕРІС‹Р№ Executor: MultiSequentialExecutor - РњРЅРѕРіРѕРєР°РЅР°Р»СЊРЅС‹Р№ РџРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅС‹Р№ Executor.
+    РљР°Р¶РґРѕРјСѓ Р›РѕРіРіРµСЂСѓ РІС‹РґРµР»СЏРµРј СЃРІРѕР№ СЃРѕР±СЃС‚РІРµРЅРЅС‹Р№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅС‹Р№ РєР°РЅР°Р» РґР»Р» РѕР±РѕСЃРѕР±Р»РµРЅРЅРѕРіРѕ РёСЃРїР»РЅРµРЅРёСЏ Рё
+    РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕРіРѕ РїРѕСЂСЏРґРєР° Р»РѕРі-Р·Р°РїРёСЃРµР№.
 */
 
 int main() {
-    // Создаем MultiLogServiceAdvanced с многопоточным последовательным исполнителем
-    // Было так:
+    // РЎРѕР·РґР°РµРј MultiLogServiceAdvanced СЃ РјРЅРѕРіРѕРїРѕС‚РѕС‡РЅС‹Рј РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅС‹Рј РёСЃРїРѕР»РЅРёС‚РµР»РµРј
+    // Р‘С‹Р»Рѕ С‚Р°Рє:
     // MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
-    // Стало так:
-    MultiLogServiceAdvanced<MultiLogger, MultiSequentialExecutor> multi_log_service_adv(3); // 3 потока. 
+    // РЎС‚Р°Р»Рѕ С‚Р°Рє:
+    MultiLogServiceAdvanced<MultiLogger, MultiSequentialExecutor> multi_log_service_adv(3); // 3 РїРѕС‚РѕРєР°. 
 
-    // Добавляем ConsoleLogger
+    // Р”РѕР±Р°РІР»СЏРµРј ConsoleLogger
     auto consoleLogger = std::make_shared<ConsoleLogger>();
     consoleLogger->enable(true);
     // consoleLogger->enable(false);
-    consoleLogger->setup_channel_id(1); // Канал 1
+    consoleLogger->setup_channel_id(1); // РљР°РЅР°Р» 1
     multi_log_service_adv.addLogger(consoleLogger);
 
-    // Добавляем MemoryLogger
+    // Р”РѕР±Р°РІР»СЏРµРј MemoryLogger
     auto memoryLogger = std::make_shared<MemoryLogger>();
     memoryLogger->enable(true);
     // memoryLogger->enable(false);
-    memoryLogger->setup_channel_id(2); // Канал 2
+    memoryLogger->setup_channel_id(2); // РљР°РЅР°Р» 2
     multi_log_service_adv.addLogger(memoryLogger);
 
-    // Добавляем FileLogger
+    // Р”РѕР±Р°РІР»СЏРµРј FileLogger
     auto fileLogger = std::make_shared<FileLogger>();
     fileLogger->set_file_name("FileLogger.txt");
     fileLogger->enable(true);
     // fileLogger->enable(false);
-    fileLogger->setup_channel_id(3); // Канал 3
+    fileLogger->setup_channel_id(3); // РљР°РЅР°Р» 3
     multi_log_service_adv.addLogger(fileLogger);
 
-    // Логируем несколько сообщений
+    // Р›РѕРіРёСЂСѓРµРј РЅРµСЃРєРѕР»СЊРєРѕ СЃРѕРѕР±С‰РµРЅРёР№
 
     multi_log_service_adv.log(1, MessageStatus::SUCCESS, "Message1 on channel 1");
     multi_log_service_adv.log(1, MessageStatus::WARNING, "Message2 on channel 2");
     multi_log_service_adv.log(1, MessageStatus::FATAL, "Message3 on channel 3");
 
-    // Печатаем все логи
+    // РџРµС‡Р°С‚Р°РµРј РІСЃРµ Р»РѕРіРё
     multi_log_service_adv.printAll();
 
-    // Показываем состояние исполнителя
+    // РџРѕРєР°Р·С‹РІР°РµРј СЃРѕСЃС‚РѕСЏРЅРёРµ РёСЃРїРѕР»РЅРёС‚РµР»СЏ
     // to Do
   //   std::cout << "Active threads: " << multi_log_service_adv.getActiveThreadCount() << "\n";
   //   std::cout << "Pending tasks: " << multi_log_service_adv.getTaskQueueSize() << "\n";
@@ -73,16 +73,16 @@ int main() {
 }
 
 /*
-    Таким образом мы прошли путь от самого примитивного ConsoleLogger до MultoLogService,
-    работающего в последовательном мультиканальном ThreadPool.
+    РўР°РєРёРј РѕР±СЂР°Р·РѕРј РјС‹ РїСЂРѕС€Р»Рё РїСѓС‚СЊ РѕС‚ СЃР°РјРѕРіРѕ РїСЂРёРјРёС‚РёРІРЅРѕРіРѕ ConsoleLogger РґРѕ MultoLogService,
+    СЂР°Р±РѕС‚Р°СЋС‰РµРіРѕ РІ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕРј РјСѓР»СЊС‚РёРєР°РЅР°Р»СЊРЅРѕРј ThreadPool.
 */
 
 /*
 
-Программа работает.
-Необходимо более тщательно проверить Приложение.
-Состояние этого проекта:
-Проект в принципе работает.
-Требует дополнительной отладки
+РџСЂРѕРіСЂР°РјРјР° СЂР°Р±РѕС‚Р°РµС‚.
+РќРµРѕР±С…РѕРґРёРјРѕ Р±РѕР»РµРµ С‚С‰Р°С‚РµР»СЊРЅРѕ РїСЂРѕРІРµСЂРёС‚СЊ РџСЂРёР»РѕР¶РµРЅРёРµ.
+РЎРѕСЃС‚РѕСЏРЅРёРµ СЌС‚РѕРіРѕ РїСЂРѕРµРєС‚Р°:
+РџСЂРѕРµРєС‚ РІ РїСЂРёРЅС†РёРїРµ СЂР°Р±РѕС‚Р°РµС‚.
+РўСЂРµР±СѓРµС‚ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕР№ РѕС‚Р»Р°РґРєРё
 */
 
