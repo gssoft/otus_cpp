@@ -1,0 +1,18 @@
+25.02.20 06:51:39.056 [1] [SUCCESS] Hello world
+25.02.20 06:51:39.057 [2] [WARNING] Good bye
+25.02.20 06:51:39.057 [3] [FATAL] Somethings goes Baaaaaaad!
+25.02.20 06:51:44.594 [1] [SUCCESS] Hello world
+25.02.20 06:51:44.594 [2] [WARNING] Good bye
+25.02.20 06:51:44.595 [3] [FATAL] Somethings goes Baaaaaaad!
+25.02.20 06:52:30.053 [1] [SUCCESS] Hello world
+25.02.20 06:52:30.054 [2] [WARNING] Good bye
+25.02.20 06:52:30.054 [3] [FATAL] Somethings goes Baaaaaaad!
+25.02.20 07:21:49.757 [1] [SUCCESS] Hello world
+25.02.20 07:21:49.758 [2] [WARNING] Good bye
+25.02.20 07:21:49.758 [3] [FATAL] Somethings goes Baaaaaaad!
+25.02.20 14:51:28.471 [1] [SUCCESS] Hello world
+25.02.20 14:51:28.471 [2] [WARNING] Good bye
+25.02.20 14:51:28.471 [3] [FATAL] Somethings goes Baaaaaaad!
+25.02.20 14:53:07.171 [1] [SUCCESS] Hello world
+25.02.20 14:53:07.171 [2] [WARNING] Good bye
+25.02.20 14:53:07.171 [3] [FATAL] Somethings goes Baaaaaaad!

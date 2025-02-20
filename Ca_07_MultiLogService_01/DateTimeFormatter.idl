@@ -1,0 +1,9 @@
+namespace Ca07MultiLogService01
+{
+    [default_interface]
+    runtimeclass DateTimeFormatter : Windows.UI.Xaml.Controls.Page
+    {
+        DateTimeFormatter();
+        Int32 MyProperty;
+    }
+}
