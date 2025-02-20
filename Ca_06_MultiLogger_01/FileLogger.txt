@@ -34,3 +34,7 @@
 25.02.20 14:51:17.551 [2] [WARNING] Good bye
 25.02.20 14:51:17.564 [3] [SUCCESS] Hello world
 25.02.20 14:51:17.564 [4] [WARNING] Good bye
+25.02.20 15:51:22.985 [1] [SUCCESS] Hello world
+25.02.20 15:51:22.986 [2] [WARNING] Good bye
+25.02.20 15:51:23.010 [3] [SUCCESS] Hello world
+25.02.20 15:51:23.010 [4] [WARNING] Good bye

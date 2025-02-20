@@ -129,7 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Ca_05_Logger_Executor_In_Service_01.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="ConsoleLogger.cpp" />
     <ClCompile Include="SingleThreadExecutor.cpp" />
   </ItemGroup>

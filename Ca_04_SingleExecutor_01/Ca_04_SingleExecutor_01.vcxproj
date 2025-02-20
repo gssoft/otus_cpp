@@ -128,7 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Ca_04_SingleExecutor_01.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="ConsoleLogger.cpp" />
     <ClCompile Include="SingleExecutor.cpp" />
   </ItemGroup>

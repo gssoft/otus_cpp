@@ -128,7 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Ca_08_MultiLogServiceAdvanced_01.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="DateTimeFormatter.cpp" />
   </ItemGroup>
   <ItemGroup>

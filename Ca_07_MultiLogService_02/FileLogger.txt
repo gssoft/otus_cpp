@@ -16,3 +16,6 @@
 25.02.20 14:53:07.171 [1] [SUCCESS] Hello world
 25.02.20 14:53:07.171 [2] [WARNING] Good bye
 25.02.20 14:53:07.171 [3] [FATAL] Somethings goes Baaaaaaad!
+25.02.20 15:51:09.353 [1] [SUCCESS] Hello world
+25.02.20 15:51:09.353 [2] [WARNING] Good bye
+25.02.20 15:51:09.353 [3] [FATAL] Somethings goes Baaaaaaad!

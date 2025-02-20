@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Ca_03_LoggerInThreadPool_01.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="LogService.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
   </ItemGroup>
