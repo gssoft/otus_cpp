@@ -1,4 +1,6 @@
-Все проекты находятся в solution в Visual Studio 2022 Community.
+
+Github: https://github.com/gssoft/otus_cpp.git
+Все проекты разрабатывались и находятся в solution в Visual Studio 2022 Community.
 Version 17.13.0 
 ------------------------------------------------------------------
 1.	Ca_01_ConsoleLogger_01 – проект
@@ -581,7 +583,7 @@ o	Гибкость управления потоками: На данный мо
 Проект находиться в разработке. В стадии отладки.
 Цель проекта сделать МултиПоследовательный Executor (MultiSequentialExecutor)
 В простонародье называется Канальный Executor.
-Задача - подключить каждый Loger из MultiLogger к выделеному для этого Logger-a последовательному каналу в  Executor-e.
+Задача - подключить каждый Loger из MultiLogger к выделеному для этого Logger-a последовательному каналу в Executor-e. Каждый Logger должен иметь свой собственный канал в Многоканальном Последовательном Executor-е.
 То есть вместо этого:
 MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
 Получить вот это:
@@ -593,6 +595,9 @@ MultiLogServiceAdvanced<MultiLogger, MultiSequentialExecutor> multi_log_service_
 -----------------------------------------------------------------
 Получилось 8 проектов.
 Спасибо за внимание. До новых встреч в эфире.
+
+https://github.com/gssoft/otus_cpp.git
+
 Мой телефон 8 (985) 957-90-58. Сергей. 
 
 
