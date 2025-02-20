@@ -97,7 +97,7 @@ public:
 
     void open_file() {
         if (!filename.empty()) {
-            logFile.open(filename, std::ios::app); // Открываем файл в режиме добавления
+            logFile.open(filename, std::ios::app); // РћС‚РєСЂС‹РІР°РµРј С„Р°Р№Р» РІ СЂРµР¶РёРјРµ РґРѕР±Р°РІР»РµРЅРёСЏ
         }
     }
 

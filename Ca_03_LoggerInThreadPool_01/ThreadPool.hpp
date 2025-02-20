@@ -13,21 +13,21 @@ class ILogger;
 
 class ThreadPool {
 private:
-    std::thread sequential_thread_;                // Отдельный поток для задач
-    std::queue<std::function<void()>> sequential_queue_;    // Очередь задач
-    std::mutex sequential_mutex_;                  // Мьютекс для защиты доступа к очереди
-    std::condition_variable sequential_cv_;        // Условная переменная для управления очередью
-    bool sequential_running_ = true;               // Флаг работы потока
-    ILogger& logger_;                              // Логгер
+    std::thread sequential_thread_;                // РћС‚РґРµР»СЊРЅС‹Р№ РїРѕС‚РѕРє РґР»СЏ Р·Р°РґР°С‡
+    std::queue<std::function<void()>> sequential_queue_;    // РћС‡РµСЂРµРґСЊ Р·Р°РґР°С‡
+    std::mutex sequential_mutex_;                  // РњСЊСЋС‚РµРєСЃ РґР»СЏ Р·Р°С‰РёС‚С‹ РґРѕСЃС‚СѓРїР° Рє РѕС‡РµСЂРµРґРё
+    std::condition_variable sequential_cv_;        // РЈСЃР»РѕРІРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РѕС‡РµСЂРµРґСЊСЋ
+    bool sequential_running_ = true;               // Р¤Р»Р°Рі СЂР°Р±РѕС‚С‹ РїРѕС‚РѕРєР°
+    ILogger& logger_;                              // Р›РѕРіРіРµСЂ
 
-    void sequential_worker();                      // Функция-рабочий, выполняет задачи из очереди
+    void sequential_worker();                      // Р¤СѓРЅРєС†РёСЏ-СЂР°Р±РѕС‡РёР№, РІС‹РїРѕР»РЅСЏРµС‚ Р·Р°РґР°С‡Рё РёР· РѕС‡РµСЂРµРґРё
 
 public:
     ThreadPool(ILogger& logger) : logger_(logger) {
         AddLogItem(LogLevel::SUCCESS, "ThreadPool", "Created", "Good Luck!");
         sequential_thread_ = std::thread(&ThreadPool::sequential_worker, this);
     }
-    // Конструктор для Service<ConsoleLogger>
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґР»СЏ Service<ConsoleLogger>
     ThreadPool(Service<ConsoleLogger>& logService) : logger_(logService) {
         AddLogItem(LogLevel::SUCCESS, "ThreadPool", "Created", "Good Luck!");
         sequential_thread_ = std::thread(&ThreadPool::sequential_worker, this);

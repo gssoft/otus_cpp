@@ -6,62 +6,62 @@
 #include "RealLoggers.hpp"
 
 /*
-    Итак в предыдущем проекте мы остановились на этом ->
+    РС‚Р°Рє РІ РїСЂРµРґС‹РґСѓС‰РµРј РїСЂРѕРµРєС‚Рµ РјС‹ РѕСЃС‚Р°РЅРѕРІРёР»РёСЃСЊ РЅР° СЌС‚РѕРј ->
     LogService<ConsoleLogger, SingleThreadExecutor> log_sevice;
 
-    У нас есть ConsoleLogger  и Исполнитель с одним потоком.
+    РЈ РЅР°СЃ РµСЃС‚СЊ ConsoleLogger  Рё РСЃРїРѕР»РЅРёС‚РµР»СЊ СЃ РѕРґРЅРёРј РїРѕС‚РѕРєРѕРј.
 
-    Для наших широкомасштабных задач только ConsoleLogger-а маловато будет.
-    Хотим еще пару логеров
-        -   MemoryLogger (Cash) - на определенное кол-во записей, чтобы нам легко можно было посмотреть
-            N - последних Log запписей, с дефолтным значением 100 и
-        -   FileLogger - будет записывать все записи в определенный файл. Имя файла задается в коде. см строку 49
+    Р”Р»СЏ РЅР°С€РёС… С€РёСЂРѕРєРѕРјР°СЃС€С‚Р°Р±РЅС‹С… Р·Р°РґР°С‡ С‚РѕР»СЊРєРѕ ConsoleLogger-Р° РјР°Р»РѕРІР°С‚Рѕ Р±СѓРґРµС‚.
+    РҐРѕС‚РёРј РµС‰Рµ РїР°СЂСѓ Р»РѕРіРµСЂРѕРІ
+        -   MemoryLogger (Cash) - РЅР° РѕРїСЂРµРґРµР»РµРЅРЅРѕРµ РєРѕР»-РІРѕ Р·Р°РїРёСЃРµР№, С‡С‚РѕР±С‹ РЅР°Рј Р»РµРіРєРѕ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РїРѕСЃРјРѕС‚СЂРµС‚СЊ
+            N - РїРѕСЃР»РµРґРЅРёС… Log Р·Р°РїРїРёСЃРµР№, СЃ РґРµС„РѕР»С‚РЅС‹Рј Р·РЅР°С‡РµРЅРёРµРј 100 Рё
+        -   FileLogger - Р±СѓРґРµС‚ Р·Р°РїРёСЃС‹РІР°С‚СЊ РІСЃРµ Р·Р°РїРёСЃРё РІ РѕРїСЂРµРґРµР»РµРЅРЅС‹Р№ С„Р°Р№Р». РРјСЏ С„Р°Р№Р»Р° Р·Р°РґР°РµС‚СЃСЏ РІ РєРѕРґРµ. СЃРј СЃС‚СЂРѕРєСѓ 49
 
-    Таким образом у нас будет:
-    Logger - менеджер и
+    РўР°РєРёРј РѕР±СЂР°Р·РѕРј Сѓ РЅР°СЃ Р±СѓРґРµС‚:
+    Logger - РјРµРЅРµРґР¶РµСЂ Рё
     Loggers:
         - ConsoleLogger
         - MemoryLogger
         - FileLogger
 */
 
-// реализация в этом проекте
+// СЂРµР°Р»РёР·Р°С†РёСЏ РІ СЌС‚РѕРј РїСЂРѕРµРєС‚Рµ
 
 int main() {
-    // Создаем основной менеджер логов
+    // РЎРѕР·РґР°РµРј РѕСЃРЅРѕРІРЅРѕР№ РјРµРЅРµРґР¶РµСЂ Р»РѕРіРѕРІ
     Logger logger;
 
-    // Добавляем ConsoleLogger
+    // Р”РѕР±Р°РІР»СЏРµРј ConsoleLogger
     auto consoleLogger = std::make_shared<ConsoleLogger>();
     consoleLogger->enable(true);
     consoleLogger->set_dt_format(DateTimeFormat::WithDate_HH_MM_SS_ms);
     logger.addLogger(consoleLogger);
 
-    // Добавляем MemoryLogger
+    // Р”РѕР±Р°РІР»СЏРµРј MemoryLogger
     auto memoryLogger = std::make_shared<MemoryLogger>();
     memoryLogger->enable(true);
     memoryLogger->set_dt_format(DateTimeFormat::WithDate_HH_MM_SS_ms);
-    memoryLogger->set_max_logitems(100);   // MAX КОЛИЧЕСТВО ПОСЛЕДНИХ ЗАПИСЕЙ в CASH-е.
+    memoryLogger->set_max_logitems(100);   // MAX РљРћР›РР§Р•РЎРўР’Рћ РџРћРЎР›Р•Р”РќРРҐ Р—РђРџРРЎР•Р™ РІ CASH-Рµ.
     logger.addLogger(memoryLogger);
 
-    // Добавляем FileLogger
+    // Р”РѕР±Р°РІР»СЏРµРј FileLogger
     auto fileLogger = std::make_shared<FileLogger>();
     fileLogger->set_file_name("FileLogger.txt");
     fileLogger->enable(true);
     fileLogger->set_dt_format(DateTimeFormat::WithDate_HH_MM_SS_ms);
     logger.addLogger(fileLogger);
 
-    // Логируем два сообщения
+    // Р›РѕРіРёСЂСѓРµРј РґРІР° СЃРѕРѕР±С‰РµРЅРёСЏ
     logger.log(MessageStatus::SUCCESS, "Hello world");
     logger.log(MessageStatus::WARNING, "Good bye");
 
-    // Выводим все логи для активных логгеров
+    // Р’С‹РІРѕРґРёРј РІСЃРµ Р»РѕРіРё РґР»СЏ Р°РєС‚РёРІРЅС‹С… Р»РѕРіРіРµСЂРѕРІ
     logger.printAll();
 
     logger.log(MessageStatus::SUCCESS, "Hello world");
     logger.log(MessageStatus::WARNING, "Good bye");
 
-    // Выводим все логи для активных логгеров
+    // Р’С‹РІРѕРґРёРј РІСЃРµ Р»РѕРіРё РґР»СЏ Р°РєС‚РёРІРЅС‹С… Р»РѕРіРіРµСЂРѕРІ
     logger.printAll();
 
     return 0;

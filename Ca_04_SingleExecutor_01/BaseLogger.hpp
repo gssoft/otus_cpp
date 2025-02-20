@@ -5,7 +5,7 @@
 
 #include <string>
 
-// Уровни логирования
+// РЈСЂРѕРІРЅРё Р»РѕРіРёСЂРѕРІР°РЅРёСЏ
 enum class LogLevel {
     SUCCESS,
     WARNING,
@@ -18,12 +18,12 @@ enum class LogLevel {
     CRITICAL
 };
 
-// Интерфейс базового логгера
+// РРЅС‚РµСЂС„РµР№СЃ Р±Р°Р·РѕРІРѕРіРѕ Р»РѕРіРіРµСЂР°
 class BaseLogger {
 public:
     virtual ~BaseLogger() = default;
 
-    // Виртуальный метод логирования
+    // Р’РёСЂС‚СѓР°Р»СЊРЅС‹Р№ РјРµС‚РѕРґ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ
     virtual void Log(LogLevel level, const std::string& message) = 0;
 };
 

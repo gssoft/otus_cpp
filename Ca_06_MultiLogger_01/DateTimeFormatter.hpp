@@ -5,7 +5,7 @@
 
 #include <string>
 
-// Перечисление доступных форматов времени
+// РџРµСЂРµС‡РёСЃР»РµРЅРёРµ РґРѕСЃС‚СѓРїРЅС‹С… С„РѕСЂРјР°С‚РѕРІ РІСЂРµРјРµРЅРё
 enum class DateTimeFormat {
     WithDate_HH_MM,              // yy.mm.dd hh:mm
     WithDate_HH_MM_SS,           // yy.mm.dd hh:mm:ss
@@ -17,7 +17,7 @@ enum class DateTimeFormat {
     WithoutDate_HH_MM_SS_us      // hh:mm:ss.uuuuuu
 };
 
-// Функция для получения текущего времени в заданном формате
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ С‚РµРєСѓС‰РµРіРѕ РІСЂРµРјРµРЅРё РІ Р·Р°РґР°РЅРЅРѕРј С„РѕСЂРјР°С‚Рµ
 std::string formatDateTime(const DateTimeFormat& format);
 
 #endif // DATETIMEFORMATTER_HPP

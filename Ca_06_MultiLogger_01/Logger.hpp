@@ -14,17 +14,17 @@
 #include <cstring>
 #include <time.h>
 
-// Перечисление статусов сообщения
+// РџРµСЂРµС‡РёСЃР»РµРЅРёРµ СЃС‚Р°С‚СѓСЃРѕРІ СЃРѕРѕР±С‰РµРЅРёСЏ
 enum class MessageStatus { SUCCESS, WARNING, FATAL };
 
-// Структура лог-сообщения
+// РЎС‚СЂСѓРєС‚СѓСЂР° Р»РѕРі-СЃРѕРѕР±С‰РµРЅРёСЏ
 struct LogItem {
     int id;
-    std::string time;            // Время в строковом формате
-    MessageStatus status;        // Уровень сообщения
-    std::string description;     // Текст сообщения
+    std::string time;            // Р’СЂРµРјСЏ РІ СЃС‚СЂРѕРєРѕРІРѕРј С„РѕСЂРјР°С‚Рµ
+    MessageStatus status;        // РЈСЂРѕРІРµРЅСЊ СЃРѕРѕР±С‰РµРЅРёСЏ
+    std::string description;     // РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ
 
-    // Преобразование в строку
+    // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РІ СЃС‚СЂРѕРєСѓ
     std::string toString() const {
         std::ostringstream oss;
         /*oss << "[" << id << "] [" << time << "] ["
@@ -41,32 +41,32 @@ struct LogItem {
     }
 };
 
-// Базовый интерфейс для конкретных логгеров
+// Р‘Р°Р·РѕРІС‹Р№ РёРЅС‚РµСЂС„РµР№СЃ РґР»СЏ РєРѕРЅРєСЂРµС‚РЅС‹С… Р»РѕРіРіРµСЂРѕРІ
 class ILogger {
 public:
     virtual ~ILogger() = default;
 
-    // Указывает, активен ли логгер
+    // РЈРєР°Р·С‹РІР°РµС‚, Р°РєС‚РёРІРµРЅ Р»Рё Р»РѕРіРіРµСЂ
     virtual void enable(bool status) = 0;
 
-    // Логирование конкретного сообщения
+    // Р›РѕРіРёСЂРѕРІР°РЅРёРµ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
     virtual void log(const LogItem& item) = 0;
 
-    // Вывод всех логов (если поддерживается)
+    // Р’С‹РІРѕРґ РІСЃРµС… Р»РѕРіРѕРІ (РµСЃР»Рё РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ)
     virtual void print() const = 0;
 
-    // Проверка: включен ли логгер
+    // РџСЂРѕРІРµСЂРєР°: РІРєР»СЋС‡РµРЅ Р»Рё Р»РѕРіРіРµСЂ
     virtual bool isEnabled() const = 0;
 
-    // Установка формата времени
+    // РЈСЃС‚Р°РЅРѕРІРєР° С„РѕСЂРјР°С‚Р° РІСЂРµРјРµРЅРё
     virtual void set_dt_format(DateTimeFormat format) = 0;
 };
 
-// Класс-менеджер Logger
+// РљР»Р°СЃСЃ-РјРµРЅРµРґР¶РµСЂ Logger
 class Logger {
 private:
     std::vector<std::shared_ptr<ILogger>> loggers;
-    int idCounter = 1; // Уникальный идентификатор для логов
+    int idCounter = 1; // РЈРЅРёРєР°Р»СЊРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РґР»СЏ Р»РѕРіРѕРІ
 
 public:
     void addLogger(const std::shared_ptr<ILogger>& logger) {
@@ -76,20 +76,20 @@ public:
         auto timePoint = std::chrono::system_clock::now();
         std::time_t time = std::chrono::system_clock::to_time_t(timePoint);
 
-        // Создаём буфер для временной строки
-        char timeBuffer[26];  // Размер должен быть не менее 26 символов
+        // РЎРѕР·РґР°С‘Рј Р±СѓС„РµСЂ РґР»СЏ РІСЂРµРјРµРЅРЅРѕР№ СЃС‚СЂРѕРєРё
+        char timeBuffer[26];  // Р Р°Р·РјРµСЂ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РЅРµ РјРµРЅРµРµ 26 СЃРёРјРІРѕР»РѕРІ
 
-        // Используем безопасную версию ctime
+        // РСЃРїРѕР»СЊР·СѓРµРј Р±РµР·РѕРїР°СЃРЅСѓСЋ РІРµСЂСЃРёСЋ ctime
         errno_t err = ctime_s(timeBuffer, sizeof(timeBuffer), &time);
 
-        // Проверяем успешность операции
+        // РџСЂРѕРІРµСЂСЏРµРј СѓСЃРїРµС€РЅРѕСЃС‚СЊ РѕРїРµСЂР°С†РёРё
         if (err != 0) {
-            // Если произошла ошибка, используем резервное значение
+            // Р•СЃР»Рё РїСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР°, РёСЃРїРѕР»СЊР·СѓРµРј СЂРµР·РµСЂРІРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
             timeBuffer[0] = '\0';
         }
 
         std::string timeStr(timeBuffer);
-        timeStr.pop_back(); // Убираем символ перевода строки
+        timeStr.pop_back(); // РЈР±РёСЂР°РµРј СЃРёРјРІРѕР» РїРµСЂРµРІРѕРґР° СЃС‚СЂРѕРєРё
 
         LogItem item{ idCounter++, timeStr, status, description };
 

@@ -4,28 +4,28 @@
 // Ca_MultiLogService_01.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 /*
-    В предыдущих проектах мы разработали новый Logger c отдельными Loggers:
+    Р’ РїСЂРµРґС‹РґСѓС‰РёС… РїСЂРѕРµРєС‚Р°С… РјС‹ СЂР°Р·СЂР°Р±РѕС‚Р°Р»Рё РЅРѕРІС‹Р№ Logger c РѕС‚РґРµР»СЊРЅС‹РјРё Loggers:
     - ConsoleLOgger
     - MemoryLogger
     - FileLogger
 
-    а также мы имеем вот такую кострукцию от другого предыдущего проекта
+    Р° С‚Р°РєР¶Рµ РјС‹ РёРјРµРµРј РІРѕС‚ С‚Р°РєСѓСЋ РєРѕСЃС‚СЂСѓРєС†РёСЋ РѕС‚ РґСЂСѓРіРѕРіРѕ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїСЂРѕРµРєС‚Р°
     LogService<ConsoleLogger, SingleThreadExecutor> log_sevice;
 
-    Что мы сделаем в этом проекте
-    - Переименуем наш Логгер и дадим ему новое гордое название MultiLogger
-    - Переименуем наш сервис из LogService в MultiLogService
-    - И опять сделаем ту же ШАБЛОННУЮ магию.
-    Вот так
+    Р§С‚Рѕ РјС‹ СЃРґРµР»Р°РµРј РІ СЌС‚РѕРј РїСЂРѕРµРєС‚Рµ
+    - РџРµСЂРµРёРјРµРЅСѓРµРј РЅР°С€ Р›РѕРіРіРµСЂ Рё РґР°РґРёРј РµРјСѓ РЅРѕРІРѕРµ РіРѕСЂРґРѕРµ РЅР°Р·РІР°РЅРёРµ MultiLogger
+    - РџРµСЂРµРёРјРµРЅСѓРµРј РЅР°С€ СЃРµСЂРІРёСЃ РёР· LogService РІ MultiLogService
+    - Р РѕРїСЏС‚СЊ СЃРґРµР»Р°РµРј С‚Сѓ Р¶Рµ РЁРђР‘Р›РћРќРќРЈР® РјР°РіРёСЋ.
+    Р’РѕС‚ С‚Р°Рє
     MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
 */
 /*
-    Таким образом у нас было так:
+    РўР°РєРёРј РѕР±СЂР°Р·РѕРј Сѓ РЅР°СЃ Р±С‹Р»Рѕ С‚Р°Рє:
         LogService<ConsoleLogger, SingleThreadExecutor> log_sevice;
-    Станет так:
+    РЎС‚Р°РЅРµС‚ С‚Р°Рє:
         MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
 
-    и колонку я подправил
+    Рё РєРѕР»РѕРЅРєСѓ СЏ РїРѕРґРїСЂР°РІРёР»
 */
 
 #include <iostream>
@@ -34,36 +34,36 @@
 #include "MultiLogService.hpp"
 
 int main() {
-    // Создаем MultiLogService, связывая MultiLogger и SingleThreadExecutor в Wrapper c именем MultiLogService
+    // РЎРѕР·РґР°РµРј MultiLogService, СЃРІСЏР·С‹РІР°СЏ MultiLogger Рё SingleThreadExecutor РІ Wrapper c РёРјРµРЅРµРј MultiLogService
     // 
     MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
 
-    // Добавляем ConsoleLogger
+    // Р”РѕР±Р°РІР»СЏРµРј ConsoleLogger
     auto consoleLogger = std::make_shared<ConsoleLogger>();
     consoleLogger->enable(true);
     consoleLogger->set_dt_format(DateTimeFormat::WithDate_HH_MM_SS_ms);
     multi_log_service.addLogger(consoleLogger);
 
-    // Добавляем MemoryLogger
+    // Р”РѕР±Р°РІР»СЏРµРј MemoryLogger
     auto memoryLogger = std::make_shared<MemoryLogger>();
     memoryLogger->enable(true);
     memoryLogger->set_dt_format(DateTimeFormat::WithDate_HH_MM_SS_ms);
     memoryLogger->set_max_logitems(100);
     multi_log_service.addLogger(memoryLogger);
 
-    // Добавляем FileLogger
+    // Р”РѕР±Р°РІР»СЏРµРј FileLogger
     auto fileLogger = std::make_shared<FileLogger>();
     fileLogger->set_file_name("FileLogger.txt");
     fileLogger->enable(true);
     fileLogger->set_dt_format(DateTimeFormat::WithDate_HH_MM_SS_ms);
     multi_log_service.addLogger(fileLogger);
 
-    // Логируем два сообщения
+    // Р›РѕРіРёСЂСѓРµРј РґРІР° СЃРѕРѕР±С‰РµРЅРёСЏ
     multi_log_service.log(MessageStatus::SUCCESS, "Hello world");
     multi_log_service.log(MessageStatus::WARNING, "Good bye");
     multi_log_service.log(MessageStatus::FATAL, "Somethings goes Baaaaaaad!");
 
-    // Выводим все логи
+    // Р’С‹РІРѕРґРёРј РІСЃРµ Р»РѕРіРё
     multi_log_service.printAll();
 
     return 0;

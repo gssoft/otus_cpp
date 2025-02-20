@@ -22,9 +22,9 @@ std::string ConsoleLogger::FormatLogLevel(LogLevel level) {
 }
 
 void ConsoleLogger::Log(LogLevel level, const std::string& message) {
-    std::lock_guard<std::mutex> lock(mutex_);  // Потокобезопасность
+    std::lock_guard<std::mutex> lock(mutex_);  // РџРѕС‚РѕРєРѕР±РµР·РѕРїР°СЃРЅРѕСЃС‚СЊ
 
-    // Форматируем время
+    // Р¤РѕСЂРјР°С‚РёСЂСѓРµРј РІСЂРµРјСЏ
     auto now = std::chrono::system_clock::now();
     auto currentTime = std::chrono::system_clock::to_time_t(now);
     std::tm local_tm{};
@@ -33,6 +33,6 @@ void ConsoleLogger::Log(LogLevel level, const std::string& message) {
     std::ostringstream timeStream;
     timeStream << std::put_time(&local_tm, "%H:%M:%S");
 
-    // Выводим в консоль лог-сообщение
+    // Р’С‹РІРѕРґРёРј РІ РєРѕРЅСЃРѕР»СЊ Р»РѕРі-СЃРѕРѕР±С‰РµРЅРёРµ
     std::cout << "[" << timeStream.str() << "] " << FormatLogLevel(level) << message << std::endl;
 }

@@ -13,7 +13,7 @@
 #include <atomic>
 #include <vector>
 
-// Перечисление доступных форматов времени
+// РџРµСЂРµС‡РёСЃР»РµРЅРёРµ РґРѕСЃС‚СѓРїРЅС‹С… С„РѕСЂРјР°С‚РѕРІ РІСЂРµРјРµРЅРё
 enum class DateTimeFormat {
     WithDate_HH_MM,              // yy.mm.dd hh:mm
     WithDate_HH_MM_SS,           // yy.mm.dd hh:mm:ss
@@ -25,10 +25,10 @@ enum class DateTimeFormat {
     WithoutDate_HH_MM_SS_us,     // hh:mm:ss.uuuuuu
 };
 
-// Объявление функции форматирования времени
+// РћР±СЉСЏРІР»РµРЅРёРµ С„СѓРЅРєС†РёРё С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ РІСЂРµРјРµРЅРё
 std::string formatDateTime(const DateTimeFormat& format);
 
-// Перечисление уровней логирования
+// РџРµСЂРµС‡РёСЃР»РµРЅРёРµ СѓСЂРѕРІРЅРµР№ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ
 enum class LogLevel {
     SUCCESS,
     WARNING,
@@ -41,7 +41,7 @@ enum class LogLevel {
     CRITICAL
 };
 
-// Структура для записи лога
+// РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ Р·Р°РїРёСЃРё Р»РѕРіР°
 struct LogItem {
     DateTimeFormat dateTimeFormat;
     LogLevel option;
@@ -50,14 +50,14 @@ struct LogItem {
     std::string param3;
 };
 
-// Интерфейс для логгера
+// РРЅС‚РµСЂС„РµР№СЃ РґР»СЏ Р»РѕРіРіРµСЂР°
 class ILogger {
 public:
-    virtual ~ILogger() {}  // Добавляем виртуальный деструктор
+    virtual ~ILogger() {}  // Р”РѕР±Р°РІР»СЏРµРј РІРёСЂС‚СѓР°Р»СЊРЅС‹Р№ РґРµСЃС‚СЂСѓРєС‚РѕСЂ
     virtual void Log(const LogItem& item) = 0;
 };
 
-// Консольный логгер
+// РљРѕРЅСЃРѕР»СЊРЅС‹Р№ Р»РѕРіРіРµСЂ
 class ConsoleLogger : public ILogger {
 public:
     void Log(const LogItem& item) override;
@@ -65,7 +65,7 @@ public:
 
 // ----------
 
-// Шаблонный класс Service
+// РЁР°Р±Р»РѕРЅРЅС‹Р№ РєР»Р°СЃСЃ Service
 template <typename LoggerType>
 class Service : public ILogger {
 public:
@@ -77,8 +77,8 @@ public:
         , silentMode(false)
         , fatalOnlyMode(false) {
     }
-    // 88888 изменения
-    // Реализуем метод интерфейса ILogger
+    // 88888 РёР·РјРµРЅРµРЅРёСЏ
+    // Р РµР°Р»РёР·СѓРµРј РјРµС‚РѕРґ РёРЅС‚РµСЂС„РµР№СЃР° ILogger
     void Log(const LogItem& item) override {
         logger_.Log(item);
     }
@@ -100,7 +100,7 @@ public:
             running_ = true;
             worker_thread_ = std::thread(&Service::WorkerLoop, this);
 
-            // Логируем событие старта сервиса
+            // Р›РѕРіРёСЂСѓРµРј СЃРѕР±С‹С‚РёРµ СЃС‚Р°СЂС‚Р° СЃРµСЂРІРёСЃР°
             // AddLogItem({ defaultDateTimeFormat, LogLevel::SUCCESS, "Service", "Start()"});
             AddLogItem(LogLevel::SUCCESS, "LogService", "Start()", "Hello World!");
         }
@@ -140,9 +140,9 @@ public:
         cv_.notify_one();
     }
 
-    // Теперь метод `AddLogItem` принимает отдельные компоненты структуры `LogItem`,
-    // что позволяет передавать им корректно,
-    // избегая ошибок из - за отсутствия полной структуры `LogItem` в вызвонах из `main.cpp`.
+    // РўРµРїРµСЂСЊ РјРµС‚РѕРґ `AddLogItem` РїСЂРёРЅРёРјР°РµС‚ РѕС‚РґРµР»СЊРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹ СЃС‚СЂСѓРєС‚СѓСЂС‹ `LogItem`,
+    // С‡С‚Рѕ РїРѕР·РІРѕР»СЏРµС‚ РїРµСЂРµРґР°РІР°С‚СЊ РёРј РєРѕСЂСЂРµРєС‚РЅРѕ,
+    // РёР·Р±РµРіР°СЏ РѕС€РёР±РѕРє РёР· - Р·Р° РѕС‚СЃСѓС‚СЃС‚РІРёСЏ РїРѕР»РЅРѕР№ СЃС‚СЂСѓРєС‚СѓСЂС‹ `LogItem` РІ РІС‹Р·РІРѕРЅР°С… РёР· `main.cpp`.
 
 private:
     void WorkerLoop() {

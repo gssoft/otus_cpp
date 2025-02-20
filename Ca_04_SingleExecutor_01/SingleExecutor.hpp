@@ -17,10 +17,10 @@ public:
     explicit SingleExecutor(BaseLogger& logger);
     ~SingleExecutor();
 
-    // Логирование через SingleExecutor
+    // Р›РѕРіРёСЂРѕРІР°РЅРёРµ С‡РµСЂРµР· SingleExecutor
     void Log(LogLevel level, const std::string& message);
 
-    // Управление процессом обработки
+    // РЈРїСЂР°РІР»РµРЅРёРµ РїСЂРѕС†РµСЃСЃРѕРј РѕР±СЂР°Р±РѕС‚РєРё
     void Start();
     void Stop();
 

@@ -10,14 +10,14 @@
 
 class ConsoleLogger : public BaseLogger {
 public:
-    ConsoleLogger();  // Конструктор
+    ConsoleLogger();  // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
     ~ConsoleLogger() override = default;
 
-    // Реализация метода логирования
+    // Р РµР°Р»РёР·Р°С†РёСЏ РјРµС‚РѕРґР° Р»РѕРіРёСЂРѕРІР°РЅРёСЏ
     void Log(LogLevel level, const std::string& message) override;
 
 private:
-    std::mutex mutex_;  // Для потокобезопасного вывода
+    std::mutex mutex_;  // Р”Р»СЏ РїРѕС‚РѕРєРѕР±РµР·РѕРїР°СЃРЅРѕРіРѕ РІС‹РІРѕРґР°
     std::string FormatLogLevel(LogLevel level);
 };
 

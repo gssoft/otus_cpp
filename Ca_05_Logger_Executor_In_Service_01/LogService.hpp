@@ -7,11 +7,11 @@
 #include "SingleThreadExecutor.hpp"
 #include <memory>
 
-// Шаблонный класс LogService, обобщающий поведение Logger и Executor
+// РЁР°Р±Р»РѕРЅРЅС‹Р№ РєР»Р°СЃСЃ LogService, РѕР±РѕР±С‰Р°СЋС‰РёР№ РїРѕРІРµРґРµРЅРёРµ Logger Рё Executor
 template <typename LoggerType, typename ExecutorType>
 class LogService {
 public:
-    // Конструктор принимает любые аргументы для создания Logger и Executor
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРёРЅРёРјР°РµС‚ Р»СЋР±С‹Рµ Р°СЂРіСѓРјРµРЅС‚С‹ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ Logger Рё Executor
     template <typename... Args>
     LogService(Args&&... args)
         : logger_(std::make_unique<LoggerType>(std::forward<Args>(args)...)),
@@ -22,25 +22,25 @@ public:
         Stop();
     }
 
-    // Запускает исполнителя (Executor)
+    // Р—Р°РїСѓСЃРєР°РµС‚ РёСЃРїРѕР»РЅРёС‚РµР»СЏ (Executor)
     void Start() {
         executor_->Start();
     }
 
-    // Останавливает исполнителя
+    // РћСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РёСЃРїРѕР»РЅРёС‚РµР»СЏ
     void Stop() {
         if (executor_) {
             executor_->Stop();
         }
     }
 
-    // Логирование
+    // Р›РѕРіРёСЂРѕРІР°РЅРёРµ
     void Log(LogLevel level, const std::string& message) {
         executor_->Log(level, message);
     }
 
 private:
-    // Объекты Logger и Executor
+    // РћР±СЉРµРєС‚С‹ Logger Рё Executor
     std::unique_ptr<BaseLogger> logger_;
     std::unique_ptr<SingleThreadExecutor> executor_;
 };

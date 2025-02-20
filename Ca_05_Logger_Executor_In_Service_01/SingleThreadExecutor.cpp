@@ -5,7 +5,7 @@ SingleThreadExecutor::SingleThreadExecutor(BaseLogger& logger)
 }
 
 SingleThreadExecutor::~SingleThreadExecutor() {
-    Stop();  // Убедимся, что поток завершён при уничтожении объекта
+    Stop();  // РЈР±РµРґРёРјСЃСЏ, С‡С‚Рѕ РїРѕС‚РѕРє Р·Р°РІРµСЂС€С‘РЅ РїСЂРё СѓРЅРёС‡С‚РѕР¶РµРЅРёРё РѕР±СЉРµРєС‚Р°
 }
 
 void SingleThreadExecutor::Start() {
@@ -18,7 +18,7 @@ void SingleThreadExecutor::Start() {
 void SingleThreadExecutor::Stop() {
     if (running_) {
         running_ = false;
-        cv_.notify_all();  // Пробуждаем поток
+        cv_.notify_all();  // РџСЂРѕР±СѓР¶РґР°РµРј РїРѕС‚РѕРє
         if (workerThread_.joinable()) {
             workerThread_.join();
         }
@@ -39,13 +39,13 @@ void SingleThreadExecutor::WorkerLoop() {
         cv_.wait(lock, [this] { return !logQueue_.empty() || !running_; });
 
         if (!running_ && logQueue_.empty()) {
-            return;  // Прерываем выполнении, поток завершён
+            return;  // РџСЂРµСЂС‹РІР°РµРј РІС‹РїРѕР»РЅРµРЅРёРё, РїРѕС‚РѕРє Р·Р°РІРµСЂС€С‘РЅ
         }
 
         auto [level, message] = logQueue_.front();
         logQueue_.pop();
         lock.unlock();
 
-        logger_.Log(level, message);  // Логируем сообщение
+        logger_.Log(level, message);  // Р›РѕРіРёСЂСѓРµРј СЃРѕРѕР±С‰РµРЅРёРµ
     }
 }

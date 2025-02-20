@@ -10,11 +10,11 @@
 #include <chrono>
 
 // ConsoleLogger
-// Service c одним thread (поток исполнения) параметризирован ConsoleLogger
-// Получаетcя ConsoleLogger работающий с предоставленным одним Thread от Service
-// Демонстрируется работа log_service
-//  - в контексте основной программы main()
-//  - в контексте THreadPool - логировать используя только свой поток и не использовать внутренние потоки ThreadPool
+// Service c РѕРґРЅРёРј thread (РїРѕС‚РѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ) РїР°СЂР°РјРµС‚СЂРёР·РёСЂРѕРІР°РЅ ConsoleLogger
+// РџРѕР»СѓС‡Р°РµС‚cСЏ ConsoleLogger СЂР°Р±РѕС‚Р°СЋС‰РёР№ СЃ РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРЅС‹Рј РѕРґРЅРёРј Thread РѕС‚ Service
+// Р”РµРјРѕРЅСЃС‚СЂРёСЂСѓРµС‚СЃСЏ СЂР°Р±РѕС‚Р° log_service
+//  - РІ РєРѕРЅС‚РµРєСЃС‚Рµ РѕСЃРЅРѕРІРЅРѕР№ РїСЂРѕРіСЂР°РјРјС‹ main()
+//  - РІ РєРѕРЅС‚РµРєСЃС‚Рµ THreadPool - Р»РѕРіРёСЂРѕРІР°С‚СЊ РёСЃРїРѕР»СЊР·СѓСЏ С‚РѕР»СЊРєРѕ СЃРІРѕР№ РїРѕС‚РѕРє Рё РЅРµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РІРЅСѓС‚СЂРµРЅРЅРёРµ РїРѕС‚РѕРєРё ThreadPool
 // 
 
 int main() {
@@ -28,11 +28,11 @@ int main() {
     log_service.AddLogItem(LogLevel::SUCCESS, "main()", "Start Application", "Hello World");
     log_service.Start();
 
-    // Пример использования пула потоков
+    // РџСЂРёРјРµСЂ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РїСѓР»Р° РїРѕС‚РѕРєРѕРІ
     threadPool.enqueue_sequential([&log_service]() {
         log_service.AddLogItem(LogLevel::SUCCESS, "ThreadPool", "Test message from Sequential ThreadPool");
         });
-    // Пример использования логирования
+    // РџСЂРёРјРµСЂ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ
     log_service.AddLogItem(LogLevel::SUCCESS, "main()", "Log_Service", "Test message");
     log_service.AddLogItem(LogLevel::WARNING, "main()", "Log_Service", "Warning message");
     log_service.AddLogItem(LogLevel::FATAL, "main()", "Log_Service", "Fatal error: Something went wrong");
@@ -50,7 +50,7 @@ int main() {
 }
 
 /*
-В окне консоли видно когды мы работаем внутри ThreadPool, а когда в main().
+Р’ РѕРєРЅРµ РєРѕРЅСЃРѕР»Рё РІРёРґРЅРѕ РєРѕРіРґС‹ РјС‹ СЂР°Р±РѕС‚Р°РµРј РІРЅСѓС‚СЂРё ThreadPool, Р° РєРѕРіРґР° РІ main().
 */
 
 
