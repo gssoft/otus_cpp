@@ -7,30 +7,30 @@
 template <typename LoggerType, typename ExecutorType>
 class MultiLogServiceAdvanced {
 private:
-    LoggerType logger;         // Экземпляр логгера
-    ExecutorType executor;     // Экземпляр исполнителя
+    LoggerType logger;         // Р­РєР·РµРјРїР»СЏСЂ Р»РѕРіРіРµСЂР°
+    ExecutorType executor;     // Р­РєР·РµРјРїР»СЏСЂ РёСЃРїРѕР»РЅРёС‚РµР»СЏ
 
 public:
     explicit MultiLogServiceAdvanced(size_t threadCount)
         : executor(threadCount) {
     }
 
-    // Добавление логгера
+    // Р”РѕР±Р°РІР»РµРЅРёРµ Р»РѕРіРіРµСЂР°
     void addLogger(const std::shared_ptr<ILogger>& loggerInstance) {
         logger.addLogger(loggerInstance);
     }
 
-    // Логирование сообщения
+    // Р›РѕРіРёСЂРѕРІР°РЅРёРµ СЃРѕРѕР±С‰РµРЅРёСЏ
     void log(int channel_id, MessageStatus status, const std::string& description) {
         executor.execute(channel_id, [this, channel_id, status, description]() {
             logger.log(status, description);
             });
     }
 
-    // Вывод всех логов
+    // Р’С‹РІРѕРґ РІСЃРµС… Р»РѕРіРѕРІ
 
     void printAll() {
-        executor.execute(0, [this]() { // Управляющий канал 0
+        executor.execute(0, [this]() { // РЈРїСЂР°РІР»СЏСЋС‰РёР№ РєР°РЅР°Р» 0
             logger.printAll();
             });
     }

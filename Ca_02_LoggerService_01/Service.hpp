@@ -16,14 +16,14 @@
 
 using namespace std;
 
-// Перечисление уровней логирования
+// РџРµСЂРµС‡РёСЃР»РµРЅРёРµ СѓСЂРѕРІРЅРµР№ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ
 enum class LogLevel {
     SUCCESS,
     WARNING,
     FATAL
 };
 
-// Структура для записи лога
+// РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ Р·Р°РїРёСЃРё Р»РѕРіР°
 struct LogItem {
     DateTimeFormat dateTimeFormat;
     LogLevel option;
@@ -32,14 +32,14 @@ struct LogItem {
     std::string param3;
 };
 
-// Интерфейс для логгера
+// РРЅС‚РµСЂС„РµР№СЃ РґР»СЏ Р»РѕРіРіРµСЂР°
 class ILogger {
 public:
-    virtual ~ILogger() {}  // Добавляем виртуальный деструктор
+    virtual ~ILogger() {}  // Р”РѕР±Р°РІР»СЏРµРј РІРёСЂС‚СѓР°Р»СЊРЅС‹Р№ РґРµСЃС‚СЂСѓРєС‚РѕСЂ
     virtual void Log(const LogItem& item) = 0;
 };
 
-// Консольный логгер
+// РљРѕРЅСЃРѕР»СЊРЅС‹Р№ Р»РѕРіРіРµСЂ
 class ConsoleLogger : public ILogger {
 public:
     void Log(const LogItem& item) override {
@@ -68,7 +68,7 @@ public:
     }
 };
 
-// Шаблонный класс Service
+// РЁР°Р±Р»РѕРЅРЅС‹Р№ РєР»Р°СЃСЃ Service
 template <typename LoggerType>
 class Service {
 public:
@@ -97,7 +97,7 @@ public:
             running_ = true;
             worker_thread_ = std::thread(&Service::WorkerLoop, this);
 
-            // Логируем событие старта сервиса
+            // Р›РѕРіРёСЂСѓРµРј СЃРѕР±С‹С‚РёРµ СЃС‚Р°СЂС‚Р° СЃРµСЂРІРёСЃР°
             // AddLogItem({ defaultDateTimeFormat, LogLevel::SUCCESS, "Service", "Start()"});
             AddLogItem(LogLevel::SUCCESS, "Service", "Start()");
         }
@@ -109,7 +109,7 @@ public:
         if (running_) {
             // AddLogItem(LogLevel::SUCCESS, "Service", "Stop()");
             running_ = false;
-            cv_.notify_one();  // Убедимся, что поток проснется
+            cv_.notify_one();  // РЈР±РµРґРёРјСЃСЏ, С‡С‚Рѕ РїРѕС‚РѕРє РїСЂРѕСЃРЅРµС‚СЃСЏ
             if (worker_thread_.joinable())
                 worker_thread_.join();
         }

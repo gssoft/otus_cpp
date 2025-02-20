@@ -1,5 +1,5 @@
 // Ca_02_LoggerService_01.cpp : This file contains the 'main' function. Program execution begins and ends there.
-// Проект 02
+// РџСЂРѕРµРєС‚ 02
 
 #include "FormatDateTime.hpp"
 #include "Service.hpp"
@@ -7,18 +7,18 @@
 #include <thread>
 #include <chrono>
 
-// Реализация ConsoleLogger
-// ConsoleLogger работает в контексте Service с одним потоком выполнения
+// Р РµР°Р»РёР·Р°С†РёСЏ ConsoleLogger
+// ConsoleLogger СЂР°Р±РѕС‚Р°РµС‚ РІ РєРѕРЅС‚РµРєСЃС‚Рµ Service СЃ РѕРґРЅРёРј РїРѕС‚РѕРєРѕРј РІС‹РїРѕР»РЅРµРЅРёСЏ
 // 
 
 int main() {
     ConsoleLogger console_logger;
     Service<ConsoleLogger> console_log_service(std::move(console_logger));
 
-    // Устанавливаем формат даты по умолчанию
+    // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С„РѕСЂРјР°С‚ РґР°С‚С‹ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
     console_log_service.SetDateFormatDefault(DateTimeFormat::WithDate_HH_MM_SS);
 
-    // On/Off режим логирования только критических сообщений
+    // On/Off СЂРµР¶РёРј Р»РѕРіРёСЂРѕРІР°РЅРёСЏ С‚РѕР»СЊРєРѕ РєСЂРёС‚РёС‡РµСЃРєРёС… СЃРѕРѕР±С‰РµРЅРёР№
     console_log_service.SetFatalOnlyMode(false);
     console_log_service.SetSilentMode(false);
 
@@ -29,10 +29,10 @@ int main() {
     console_log_service.AddLogItem(LogLevel::FATAL, "Message 3", "Param 2", "Param 3");
 
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    // Ждем секунду, чтобы дать возможность потоку обработать все сообщения
-    // Исправил. 
-    // Сейчас работает без задержки в main().
-    // Перенес задержку в Stop() - там она более уместна
+    // Р–РґРµРј СЃРµРєСѓРЅРґСѓ, С‡С‚РѕР±С‹ РґР°С‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїРѕС‚РѕРєСѓ РѕР±СЂР°Р±РѕС‚Р°С‚СЊ РІСЃРµ СЃРѕРѕР±С‰РµРЅРёСЏ
+    // РСЃРїСЂР°РІРёР». 
+    // РЎРµР№С‡Р°СЃ СЂР°Р±РѕС‚Р°РµС‚ Р±РµР· Р·Р°РґРµСЂР¶РєРё РІ main().
+    // РџРµСЂРµРЅРµСЃ Р·Р°РґРµСЂР¶РєСѓ РІ Stop() - С‚Р°Рј РѕРЅР° Р±РѕР»РµРµ СѓРјРµСЃС‚РЅР°
     console_log_service.Stop();
 
     return 0;

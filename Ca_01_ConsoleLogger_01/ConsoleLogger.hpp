@@ -7,14 +7,14 @@
 #include <sstream>
 #include <ctime>
 
-// Перечисление уровней логирования
+// РџРµСЂРµС‡РёСЃР»РµРЅРёРµ СѓСЂРѕРІРЅРµР№ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ
 enum class LogLevel {
     SUCCESS,
     WARNING,
     FATAL
 };
 
-// Перечисление доступных форматов времени
+// РџРµСЂРµС‡РёСЃР»РµРЅРёРµ РґРѕСЃС‚СѓРїРЅС‹С… С„РѕСЂРјР°С‚РѕРІ РІСЂРµРјРµРЅРё
 enum class DateTimeFormat {
     WithDate_HH_MM,              // yy.mm.dd hh:mm
     WithDate_HH_MM_SS,           // yy.mm.dd hh:mm:ss
@@ -26,28 +26,28 @@ enum class DateTimeFormat {
     WithoutDate_HH_MM_SS_us,     // hh:mm:ss.uuuuuu
 };
 
-// Функция для форматирования текущего времени в заданном формате
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ С‚РµРєСѓС‰РµРіРѕ РІСЂРµРјРµРЅРё РІ Р·Р°РґР°РЅРЅРѕРј С„РѕСЂРјР°С‚Рµ
 inline std::string formatDateTime(const DateTimeFormat& format) {
     using namespace std::chrono;
 
-    // Получаем текущее системное время
+    // РџРѕР»СѓС‡Р°РµРј С‚РµРєСѓС‰РµРµ СЃРёСЃС‚РµРјРЅРѕРµ РІСЂРµРјСЏ
     auto now = system_clock::now();
     auto now_time_t = system_clock::to_time_t(now);
     auto now_us = duration_cast<microseconds>(now.time_since_epoch()) % 1000000;
     auto now_ms = duration_cast<milliseconds>(now.time_since_epoch()) % 1000;
 
-    // Конвертируем системное время в локальное
+    // РљРѕРЅРІРµСЂС‚РёСЂСѓРµРј СЃРёСЃС‚РµРјРЅРѕРµ РІСЂРµРјСЏ РІ Р»РѕРєР°Р»СЊРЅРѕРµ
     std::tm local_tm;
     errno_t err = localtime_s(&local_tm, &now_time_t);
 
     if (err != 0) {
-        throw std::runtime_error("Ошибка при конвертации времени: localtime_s failed");
+        throw std::runtime_error("РћС€РёР±РєР° РїСЂРё РєРѕРЅРІРµСЂС‚Р°С†РёРё РІСЂРµРјРµРЅРё: localtime_s failed");
     }
 
-    // Поток для форматирования времени
+    // РџРѕС‚РѕРє РґР»СЏ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ РІСЂРµРјРµРЅРё
     std::ostringstream oss;
 
-    // Определяем формат времени
+    // РћРїСЂРµРґРµР»СЏРµРј С„РѕСЂРјР°С‚ РІСЂРµРјРµРЅРё
     switch (format) {
     case DateTimeFormat::WithDate_HH_MM:
         oss << std::put_time(&local_tm, "%y.%m.%d %H:%M");
@@ -89,15 +89,15 @@ inline std::string formatDateTime(const DateTimeFormat& format) {
     return oss.str();
 }
 
-// Класс ConsoleLogger, отвечающий за логирование сообщений в консоль
+// РљР»Р°СЃСЃ ConsoleLogger, РѕС‚РІРµС‡Р°СЋС‰РёР№ Р·Р° Р»РѕРіРёСЂРѕРІР°РЅРёРµ СЃРѕРѕР±С‰РµРЅРёР№ РІ РєРѕРЅСЃРѕР»СЊ
 class ConsoleLogger {
 public:
-    // Метод логирования
+    // РњРµС‚РѕРґ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ
     void Log(const DateTimeFormat& timeFormat, const LogLevel& level,
         const std::string& param1, const std::string& param2 = "", const std::string& param3 = "") {
         std::string timeString = formatDateTime(timeFormat);
 
-        // Формируем префикс строки в зависимости от уровня логирования
+        // Р¤РѕСЂРјРёСЂСѓРµРј РїСЂРµС„РёРєСЃ СЃС‚СЂРѕРєРё РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СѓСЂРѕРІРЅСЏ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ
         switch (level) {
         case LogLevel::SUCCESS:
             std::cout << "[" << timeString << "] [SUCCESS] ";
@@ -113,7 +113,7 @@ public:
             break;
         }
 
-        // Выводим параметры
+        // Р’С‹РІРѕРґРёРј РїР°СЂР°РјРµС‚СЂС‹
         std::cout << param1;
         if (!param2.empty()) {
             std::cout << " " << param2;

@@ -7,14 +7,14 @@
 #include <condition_variable>
 #include <functional>
 
-// Базовый интерфейс исполнения задач
+// Р‘Р°Р·РѕРІС‹Р№ РёРЅС‚РµСЂС„РµР№СЃ РёСЃРїРѕР»РЅРµРЅРёСЏ Р·Р°РґР°С‡
 class IExecutor {
 public:
     virtual ~IExecutor() = default;
     virtual void execute(const std::function<void()>& task) = 0;
 };
 
-// Простая однопоточная реализация исполнителя
+// РџСЂРѕСЃС‚Р°СЏ РѕРґРЅРѕРїРѕС‚РѕС‡РЅР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ РёСЃРїРѕР»РЅРёС‚РµР»СЏ
 class SingleThreadExecutor : public IExecutor {
 private:
     std::queue<std::function<void()>> tasks;
@@ -62,7 +62,7 @@ public:
     }
 };
 
-// Шаблонный класс, связывающий MultiLogger и Executor
+// РЁР°Р±Р»РѕРЅРЅС‹Р№ РєР»Р°СЃСЃ, СЃРІСЏР·С‹РІР°СЋС‰РёР№ MultiLogger Рё Executor
 template <typename LoggerType, typename ExecutorType>
 class MultiLogService {
 private:

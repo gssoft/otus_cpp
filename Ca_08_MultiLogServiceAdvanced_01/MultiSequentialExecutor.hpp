@@ -11,28 +11,28 @@
 
 class MultiSequentialExecutor {
 private:
-    std::unordered_map<int, std::queue<std::function<void()>>> tasks; // Каналы задач по ID
-    std::vector<std::thread> workers;                          // Рабочие потоки
-    std::mutex mtx;                                            // Мьютекс для синхронизации
-    std::condition_variable cv;                                // Условная переменная для обработки задач
-    bool stop = false;                                         // Флаг остановки
-    std::atomic<size_t> activeThreads{ 0 };                     // Подсчет активных потоков
+    std::unordered_map<int, std::queue<std::function<void()>>> tasks; // РљР°РЅР°Р»С‹ Р·Р°РґР°С‡ РїРѕ ID
+    std::vector<std::thread> workers;                          // Р Р°Р±РѕС‡РёРµ РїРѕС‚РѕРєРё
+    std::mutex mtx;                                            // РњСЊСЋС‚РµРєСЃ РґР»СЏ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё
+    std::condition_variable cv;                                // РЈСЃР»РѕРІРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё Р·Р°РґР°С‡
+    bool stop = false;                                         // Р¤Р»Р°Рі РѕСЃС‚Р°РЅРѕРІРєРё
+    std::atomic<size_t> activeThreads{ 0 };                     // РџРѕРґСЃС‡РµС‚ Р°РєС‚РёРІРЅС‹С… РїРѕС‚РѕРєРѕРІ
 
-    // Функция для выполнения задач из конкретного канала
+    // Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ Р·Р°РґР°С‡ РёР· РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РєР°РЅР°Р»Р°
     void workerFunc() {
         while (true) {
             std::function<void()> task;
             {
                 std::unique_lock<std::mutex> lock(mtx);
 
-                // Ждем задачи или сигнала остановки
+                // Р–РґРµРј Р·Р°РґР°С‡Рё РёР»Рё СЃРёРіРЅР°Р»Р° РѕСЃС‚Р°РЅРѕРІРєРё
                 cv.wait(lock, [this] { return stop || hasPendingTasks(); });
 
-                // Если остановлено и задач нет - завершаем
+                // Р•СЃР»Рё РѕСЃС‚Р°РЅРѕРІР»РµРЅРѕ Рё Р·Р°РґР°С‡ РЅРµС‚ - Р·Р°РІРµСЂС€Р°РµРј
                 if (stop && !hasPendingTasks())
                     return;
 
-                // Ищем задачу в любом из каналов
+                // РС‰РµРј Р·Р°РґР°С‡Сѓ РІ Р»СЋР±РѕРј РёР· РєР°РЅР°Р»РѕРІ
                 for (auto& [channel_id, queue] : tasks) {
                     if (!queue.empty()) {
                         task = std::move(queue.front());
@@ -42,14 +42,14 @@ private:
                 }
             }
 
-            // Увеличиваем счетчик активных потоков
+            // РЈРІРµР»РёС‡РёРІР°РµРј СЃС‡РµС‚С‡РёРє Р°РєС‚РёРІРЅС‹С… РїРѕС‚РѕРєРѕРІ
             activeThreads++;
-            task(); // Выполняем задачу
-            activeThreads--; // Уменьшаем счетчик после выполнения задачи
+            task(); // Р’С‹РїРѕР»РЅСЏРµРј Р·Р°РґР°С‡Сѓ
+            activeThreads--; // РЈРјРµРЅСЊС€Р°РµРј СЃС‡РµС‚С‡РёРє РїРѕСЃР»Рµ РІС‹РїРѕР»РЅРµРЅРёСЏ Р·Р°РґР°С‡Рё
         }
     }
 
-    // Проверяет соблюдение условий выполнения задач в каналах
+    // РџСЂРѕРІРµСЂСЏРµС‚ СЃРѕР±Р»СЋРґРµРЅРёРµ СѓСЃР»РѕРІРёР№ РІС‹РїРѕР»РЅРµРЅРёСЏ Р·Р°РґР°С‡ РІ РєР°РЅР°Р»Р°С…
     bool hasPendingTasks() const {
         for (const auto& [channel_id, queue] : tasks) {
             if (!queue.empty()) return true;
@@ -59,7 +59,7 @@ private:
 
 public:
     explicit MultiSequentialExecutor(size_t threadCount) {
-        // Создаем заданное количество потоков
+        // РЎРѕР·РґР°РµРј Р·Р°РґР°РЅРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕС‚РѕРєРѕРІ
         for (size_t i = 0; i < threadCount; ++i) {
             workers.emplace_back(&MultiSequentialExecutor::workerFunc, this);
         }
@@ -68,9 +68,9 @@ public:
     ~MultiSequentialExecutor() {
         {
             std::unique_lock<std::mutex> lock(mtx);
-            stop = true; // Завершаем выполнение
+            stop = true; // Р—Р°РІРµСЂС€Р°РµРј РІС‹РїРѕР»РЅРµРЅРёРµ
         }
-        cv.notify_all(); // Пробуждаем все потоки
+        cv.notify_all(); // РџСЂРѕР±СѓР¶РґР°РµРј РІСЃРµ РїРѕС‚РѕРєРё
 
         for (auto& worker : workers) {
             if (worker.joinable()) {
@@ -82,9 +82,9 @@ public:
     void execute(int channel_id, const std::function<void()>& task) {
         {
             std::unique_lock<std::mutex> lock(mtx);
-            tasks[channel_id].push(task); // Добавляем задачу в соответствующий канал
+            tasks[channel_id].push(task); // Р”РѕР±Р°РІР»СЏРµРј Р·Р°РґР°С‡Сѓ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ РєР°РЅР°Р»
         }
-        cv.notify_one(); // Пробуждаем поток
+        cv.notify_one(); // РџСЂРѕР±СѓР¶РґР°РµРј РїРѕС‚РѕРє
     }
 
     size_t getActiveThreadCount() const {
