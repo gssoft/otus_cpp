@@ -24,13 +24,16 @@
     и реализовали новый Executor: MultiSequentialExecutor - Многоканальный Последовательный Executor.
     Каждому Логгеру выделяем свой собственный последовательный канал длл обособленного исплнения и
     для сохранения последовательного порядка лог-записей.
+
+    Создаем MultiLogServiceAdvanced с многопоточным последовательным исполнителем
+    Было так:
+    MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
+    Стало так:
+    MultiLogServiceAdvanced<MultiLogger, MultiSequentialExecutor> multi_log_service_adv(3); // 3 потока.
 */
 
 int main() {
-    // Создаем MultiLogServiceAdvanced с многопоточным последовательным исполнителем
-    // Было так:
-    // MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
-    // Стало так:
+
     MultiLogServiceAdvanced<MultiLogger, MultiSequentialExecutor> multi_log_service_adv(3); // 3 потока. 
 
     // Добавляем ConsoleLogger
