@@ -82,6 +82,6 @@ MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
 MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
 Стало так:
 MultiLogServiceAdvanced<MultiLogger, MultiSequentialExecutor> multi_log_service_adv(3);
-MultiLogger c исполнением каждого Logger-а в своем отдельном потоке.
+MultiLogger c исполнением каждого Logger-а в отдельном потоке в контексте MultiSequentialExecutor.
 --------------------------------------------------------------------------------------
 
