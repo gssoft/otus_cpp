@@ -133,6 +133,9 @@
     <ClInclude Include="FormatDateTime.hpp" />
     <ClInclude Include="Service.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Doc.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
