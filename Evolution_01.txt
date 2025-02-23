@@ -67,6 +67,10 @@ MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
 
 Ca_08.
 MultiLogServiceAdvanced<MultiLogger, MultiSequentialExecutor> multi_log_service_adv(3); // Красота.
+
+Здесь создан Wrapper с именем MultiLogServiceAdvanced и параметризован двумя классами
+MultiLogger - Поведение и  MultiSequentialExecutor (Исполнение) - многопоточный Executor
+Получилось наш MultiLogger раьотает в многопоточном Исполнителе MultiSequentialExecutor.
 Этот проект не взлетел.
 Он работает но, не так как надо. Я туда ошибочно не тот ThreadPool вставил.
 Оставляю на память, потому что с точки зрения шаблонного кода это одна из лучших шаблонных реализаций.
@@ -101,8 +105,13 @@ MultiLoggerMultiThreaded<MultiLogger<MultiSequentialExecutor<SingleExecutor>>, /
 Если кто сразу не понял, это ОДНА строка кода. Шаблонная магия рулит.
 Вот это совсем уже трэш. Сделан Wrapper MultiLoggerMultiThreaded.
 Все компоненты понятны. Максимальная гибкость. Любую конструкцию можно обновлять отдельно от остальных.
+Здесь
+- МногоПоточныйИсполнитель(MultiSequentialExecutor) парметризуется однопоточным Исполнителем (SingleExecutor).
+- MultiLogger парметризируется MultiSequentialExecutor.
+- Эти две сущности MultiLogger и MultiSequentialExecutor "объединяются" в Wrapper c именем MultiLoggerMultiThreaded.
+И затем работа идет с multiLogger_multiThreaded_service(3);
 Там описание в проекте есть в main().
-
+--------------------------------------------------------------------------------
 Здесь представлена Эволюция программного кода Регистратора сообщений.
 Мы начали с ConsoleLogger logger в проекте CA_01:
 то есть c std::cout << "Hello World" << std::endl;
