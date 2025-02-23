@@ -1,0 +1,71 @@
+// Ca_XX - "Это первые буквы в Названиях Проектов в Solution VisualStudio".
+// Эволюция кода для Logger
+// 
+
+Ca_01.
+ConsoleLogger logger;
+
+Ca_02.
+ConsoleLogger console_logger;
+Service<ConsoleLogger> console_log_service(std::move(console_logger));
+
+Ca_03.
+ConsoleLogger consoleLogger;
+Service<ConsoleLogger> log_service(std::move(consoleLogger));
+ThreadPool threadPool(log_service);
+
+Ca_04.
+ConsoleLogger logger;  // Реализация логгера
+SingleExecutor executor(logger);  // Однопоточный исполнитель (Executor)
+
+Ca_05.
+LogService<ConsoleLogger, SingleThreadExecutor> log_sevice;
+
+Ca_06.
+Logger logger; // MultiLogger
+
+Ca_07.
+MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
+
+Ca_08.
+MultiLogServiceAdvanced<MultiLogger, MultiSequentialExecutor> multi_log_service_adv(3); // Красота.
+Этот проект не взлетел.
+Он работает но не так как надо. Я туда ошибочно не тот ThreadPool вставил.
+Оставляю на память, потому что с точки зрения шаблонного кода это одна из лучших шаблонных реализаций.
+Все понятно что где какой компонент и что он делает.
+Можно разрабатывать все компоненты отдельно.
+
+Ca_09.
+
+MultiLogger<SingleExecutor> multiLogger(executor);
+Скромненько.
+
+Ca_10.
+    // Создаем MultiSequentialExecutor с 3 SingleExecutor
+    MultiSequentialExecutor<SingleExecutor> executor(3);
+
+    // Создаем MultiLogger, используя MultiSequentialExecutor
+    MultiLogger<MultiSequentialExecutor<SingleExecutor>> multiLogger(executor);
+Пошла жара.
+
+Ca_11.
+MultiLoggerMultiThreaded<MultiLogger<MultiSequentialExecutor<SingleExecutor>>, // MultiLogger
+     MultiSequentialExecutor<SingleExecutor>> // MultiSequentialExecutor
+     multiLogger_multiThreaded_service(3);
+
+Если кто сразу не понял, это ОДНА строка кода. Шаблонная магия рулит.
+Вот это совсем уже трэш. Сделан Wrapper MultiLoggerMultiThreaded.
+Все компоненты понятны. Максимальная гибкость. Любую конструкцию можно обновлять отдельно от остальных.
+Там описание в проекте есть в main().
+
+Здесь представлена Эволюция программного кода Регистратора сообщений.
+Мы начали с ConsoleLogger logger в проекте CA_01:
+то есть c std::cout << "Hello World" << std::endl;
+
+и закончили вот таким монстром в проекте CA_11:
+MultiLoggerMultiThreaded<MultiLogger<MultiSequentialExecutor<SingleExecutor>>, // MultiLogger
+     MultiSequentialExecutor<SingleExecutor>> // MultiSequentialExecutor
+     multiLogger_multiThreaded_service(3);
+Максимальная гибкость и взаимозаменямость всех компонентов.
+
+Всего хорошего до новых встреч в эфире.
