@@ -49,3 +49,6 @@
 25.02.21 06:00:04 [3] [FATAL] Message3 on channel 3
 25.02.21 06:00:04 [3] [SUCCESS] Message1 on channel 1
 25.02.21 06:00:04 [3] [WARNING] Message2 on channel 2
+25.02.23 13:47:09 [3] [SUCCESS] Message1 on channel 1
+25.02.23 13:47:09 [3] [FATAL] Message3 on channel 3
+25.02.23 13:47:09 [3] [WARNING] Message2 on channel 2

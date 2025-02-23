@@ -1,0 +1,12 @@
+25.02.23 13:09:40 [1] [SUCCESS] First log message.
+25.02.23 13:09:40 [1] [WARNING] Second log message.
+25.02.23 13:09:40 [1] [FATAL] Third log message.
+25.02.23 13:11:01 [1] [SUCCESS] Message 1
+25.02.23 13:11:01 [1] [WARNING] Message 2
+25.02.23 13:11:01 [1] [FATAL] Message 3
+25.02.23 13:11:27 [1] [SUCCESS] Message 1
+25.02.23 13:11:27 [1] [WARNING] Message 2
+25.02.23 13:11:27 [1] [FATAL] Message 3
+25.02.23 13:49:14 [1] [SUCCESS] Message 1
+25.02.23 13:49:14 [1] [WARNING] Message 2
+25.02.23 13:49:14 [1] [FATAL] Message 3
