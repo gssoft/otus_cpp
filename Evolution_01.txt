@@ -1,6 +1,7 @@
 // Ca_XX - "Это первые буквы в Названиях Проектов в Solution VisualStudio".
 // Эволюция программного кода для Logger
-// 
+//
+// Во многих проектах тоже есть краткое описание, что они делапют.
 
 Ca_01.
 
@@ -52,7 +53,12 @@ LogService<ConsoleLogger, SingleThreadExecutor> log_sevice;
 
 Ca_06.
 // Создаем основной менеджер логов
-Logger logger; // MultiLogger
+Logger logger; // MultiLogger c ConsoleLogger, MemoryLogger, FileLogger
+Logger - менеджер логеров
+- ConsoleLogger
+- MemoryLogger
+- FileLogger
+В следующем проекте переименуем этот Logger в MultiLogger
 
 Ca_07.
  // Создаем MultiLogService, связывая MultiLogger и SingleThreadExecutor в Wrapper c именем MultiLogService
