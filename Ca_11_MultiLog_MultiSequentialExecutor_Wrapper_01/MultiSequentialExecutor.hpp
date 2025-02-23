@@ -15,17 +15,17 @@ public:
     }
 
     ~MultiSequentialExecutor() {
-        // Уничтожение ресурсов происходит через деструкторы Executor
+        // РЈРЅРёС‡С‚РѕР¶РµРЅРёРµ СЂРµСЃСѓСЂСЃРѕРІ РїСЂРѕРёСЃС…РѕРґРёС‚ С‡РµСЂРµР· РґРµСЃС‚СЂСѓРєС‚РѕСЂС‹ Executor
     }
 
-    // Метод для добавления задачи
+    // РњРµС‚РѕРґ РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ Р·Р°РґР°С‡Рё
     void SubmitTask(size_t id, std::function<void()> task) {
-        // Распределение задачи по исполнителю
+        // Р Р°СЃРїСЂРµРґРµР»РµРЅРёРµ Р·Р°РґР°С‡Рё РїРѕ РёСЃРїРѕР»РЅРёС‚РµР»СЋ
         size_t executorIndex = id % executors_.size();
         executors_[executorIndex]->post(std::move(task));
     }
 
 private:
-    std::vector<std::unique_ptr<Executor>> executors_; // Вектор исполнителей
+    std::vector<std::unique_ptr<Executor>> executors_; // Р’РµРєС‚РѕСЂ РёСЃРїРѕР»РЅРёС‚РµР»РµР№
 };
 

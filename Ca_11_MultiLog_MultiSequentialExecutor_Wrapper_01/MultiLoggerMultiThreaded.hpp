@@ -8,26 +8,26 @@
 template<typename Logger, typename Executor>
 class MultiLoggerMultiThreaded {
 private:
-    Logger multiLogger; // Внутренний объект MultiLogger
-    Executor multiExecutor; // Внутренний MultiSequentialExecutor
+    Logger multiLogger; // Р’РЅСѓС‚СЂРµРЅРЅРёР№ РѕР±СЉРµРєС‚ MultiLogger
+    Executor multiExecutor; // Р’РЅСѓС‚СЂРµРЅРЅРёР№ MultiSequentialExecutor
 
 public:
-    // Конструктор
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
     MultiLoggerMultiThreaded(size_t numExecutors)
         : multiExecutor(numExecutors), multiLogger(multiExecutor) {
     }
 
-    // Добавление логгера
+    // Р”РѕР±Р°РІР»РµРЅРёРµ Р»РѕРіРіРµСЂР°
     void addLogger(const std::shared_ptr<ILogger>& logger) {
         multiLogger.addLogger(logger);
     }
 
-    // Логирование
+    // Р›РѕРіРёСЂРѕРІР°РЅРёРµ
     void log(MessageStatus status, const std::string& description) {
         multiLogger.log(status, description);
     }
 
-    // Печать всех логов
+    // РџРµС‡Р°С‚СЊ РІСЃРµС… Р»РѕРіРѕРІ
     void printAll() const {
         multiLogger.printAll();
     }

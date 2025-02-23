@@ -32,7 +32,7 @@ public:
 
 private:
 	void work(std::stop_token stop_token) {
-		while (!stop_token.stop_requested()) { // Проверяет, запрошено ли завершение работы
+		while (!stop_token.stop_requested()) { // РџСЂРѕРІРµСЂСЏРµС‚, Р·Р°РїСЂРѕС€РµРЅРѕ Р»Рё Р·Р°РІРµСЂС€РµРЅРёРµ СЂР°Р±РѕС‚С‹
 			std::function<void()> task;
 			{
 				std::unique_lock<std::mutex> lock(mtx);
@@ -50,9 +50,9 @@ private:
 	}
 	std::queue<std::function<void()>> tasks;
 	std::mutex mtx;
-	std::condition_variable_any cond; // Условная переменная Any для работы с std::stop_token
+	std::condition_variable_any cond; // РЈСЃР»РѕРІРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ Any РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ std::stop_token
 	bool done;
-	std::jthread worker; // std::jthread вместо std::thread
+	std::jthread worker; // std::jthread РІРјРµСЃС‚Рѕ std::thread
 };
 
 #endif // SINGLE_EXECUTOR_HPP
