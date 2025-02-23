@@ -9,7 +9,7 @@
 
 std::mutex _mutex;
 
-// Функция для получения текущего времени в заданном формате
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ С‚РµРєСѓС‰РµРіРѕ РІСЂРµРјРµРЅРё РІ Р·Р°РґР°РЅРЅРѕРј С„РѕСЂРјР°С‚Рµ
 std::string formatDateTime(const DateTimeFormat& format);
 
 std::string formatDateTime(const DateTimeFormat& format) {
@@ -17,22 +17,22 @@ std::string formatDateTime(const DateTimeFormat& format) {
     {
         const std::lock_guard<std::mutex> lock(_mutex);
 
-        // Получаем текущее системное время
+        // РџРѕР»СѓС‡Р°РµРј С‚РµРєСѓС‰РµРµ СЃРёСЃС‚РµРјРЅРѕРµ РІСЂРµРјСЏ
         auto now = system_clock::now();
         auto now_time_t = system_clock::to_time_t(now);
         auto now_us = duration_cast<microseconds>(now.time_since_epoch()) % 1000000;
         auto now_ms = duration_cast<milliseconds>(now.time_since_epoch()) % 1000;
 
         /*
-        // Конвертируем системное время в локальное
+        // РљРѕРЅРІРµСЂС‚РёСЂСѓРµРј СЃРёСЃС‚РµРјРЅРѕРµ РІСЂРµРјСЏ РІ Р»РѕРєР°Р»СЊРЅРѕРµ
         std::tm local_tm = *std::localtime(&now_time_t);
         */
-        // Конвертируем системное время в локальное
+        // РљРѕРЅРІРµСЂС‚РёСЂСѓРµРј СЃРёСЃС‚РµРјРЅРѕРµ РІСЂРµРјСЏ РІ Р»РѕРєР°Р»СЊРЅРѕРµ
         std::tm local_tm;
         errno_t err = localtime_s(&local_tm, &now_time_t);
 
         if (err != 0) {
-            throw std::runtime_error("Ошибка при конвертации времени: localtime_s failed");
+            throw std::runtime_error("РћС€РёР±РєР° РїСЂРё РєРѕРЅРІРµСЂС‚Р°С†РёРё РІСЂРµРјРµРЅРё: localtime_s failed");
         }
 
         // OR
@@ -42,15 +42,15 @@ std::string formatDateTime(const DateTimeFormat& format) {
             errno_t err = localtime_s(&local_tm, &now_time_t);
         }
         catch (const std::exception& e) {
-            // Обработка ошибки на более высоком уровне
+            // РћР±СЂР°Р±РѕС‚РєР° РѕС€РёР±РєРё РЅР° Р±РѕР»РµРµ РІС‹СЃРѕРєРѕРј СѓСЂРѕРІРЅРµ
             logger.error(e.what());
             return false;
         }
         */
-        // Поток для форматирования строки времени
+        // РџРѕС‚РѕРє РґР»СЏ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ СЃС‚СЂРѕРєРё РІСЂРµРјРµРЅРё
         std::ostringstream oss;
 
-        // Определяем формат времени в зависимости от переданного значения `format`
+        // РћРїСЂРµРґРµР»СЏРµРј С„РѕСЂРјР°С‚ РІСЂРµРјРµРЅРё РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РїРµСЂРµРґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ `format`
         switch (format) {
         case DateTimeFormat::WithDate_HH_MM:
             oss << std::put_time(&local_tm, "%y.%m.%d %H:%M");

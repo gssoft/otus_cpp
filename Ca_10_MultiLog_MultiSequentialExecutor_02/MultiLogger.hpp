@@ -13,18 +13,18 @@
 #include <ctime>
 #include <functional>
 
-// Перечисление статусов сообщения
+// РџРµСЂРµС‡РёСЃР»РµРЅРёРµ СЃС‚Р°С‚СѓСЃРѕРІ СЃРѕРѕР±С‰РµРЅРёСЏ
 enum class MessageStatus { SUCCESS, WARNING, FATAL };
 
-// Структура лог-сообщения
+// РЎС‚СЂСѓРєС‚СѓСЂР° Р»РѕРі-СЃРѕРѕР±С‰РµРЅРёСЏ
 struct LogItem {
-    int id;                     // Уникальный ID сообщения
-    int channel_id;             // ID канала
-    std::string time;           // Время в строковом формате
-    MessageStatus status;       // Уровень сообщения
-    std::string description;    // Текст сообщения
+    int id;                     // РЈРЅРёРєР°Р»СЊРЅС‹Р№ ID СЃРѕРѕР±С‰РµРЅРёСЏ
+    int channel_id;             // ID РєР°РЅР°Р»Р°
+    std::string time;           // Р’СЂРµРјСЏ РІ СЃС‚СЂРѕРєРѕРІРѕРј С„РѕСЂРјР°С‚Рµ
+    MessageStatus status;       // РЈСЂРѕРІРµРЅСЊ СЃРѕРѕР±С‰РµРЅРёСЏ
+    std::string description;    // РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ
 
-    // Преобразование в строку
+    // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РІ СЃС‚СЂРѕРєСѓ
     std::string toString() const {
         std::ostringstream oss;
         // oss << "[" << id << "] [" << channel_id << "] ["
@@ -36,63 +36,63 @@ struct LogItem {
     }
 };
 
-// Базовый интерфейс для конкретных логгеров
+// Р‘Р°Р·РѕРІС‹Р№ РёРЅС‚РµСЂС„РµР№СЃ РґР»СЏ РєРѕРЅРєСЂРµС‚РЅС‹С… Р»РѕРіРіРµСЂРѕРІ
 class ILogger {
 protected:
-    int channel_id = 0; // ID канала, по умолчанию 0 (общий канал)
+    int channel_id = 0; // ID РєР°РЅР°Р»Р°, РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ 0 (РѕР±С‰РёР№ РєР°РЅР°Р»)
 
 public:
     virtual ~ILogger() = default;
 
-    // Указывает, активен ли логгер
+    // РЈРєР°Р·С‹РІР°РµС‚, Р°РєС‚РёРІРµРЅ Р»Рё Р»РѕРіРіРµСЂ
     virtual void enable(bool status) = 0;
 
-    // Логирование конкретного сообщения
+    // Р›РѕРіРёСЂРѕРІР°РЅРёРµ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
     virtual void log(const LogItem& item) = 0;
 
-    // Вывод всех логов (если поддерживается)
+    // Р’С‹РІРѕРґ РІСЃРµС… Р»РѕРіРѕРІ (РµСЃР»Рё РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ)
     virtual void print() const = 0;
 
-    // Проверка: включен ли логгер
+    // РџСЂРѕРІРµСЂРєР°: РІРєР»СЋС‡РµРЅ Р»Рё Р»РѕРіРіРµСЂ
     virtual bool isEnabled() const = 0;
 
     virtual void set_dt_format(DateTimeFormat format) = 0;
 
-    // Установка ID канала
+    // РЈСЃС‚Р°РЅРѕРІРєР° ID РєР°РЅР°Р»Р°
     void setup_channel_id(int id) {
         channel_id = id;
     }
 
-    // Получение ID канала
+    // РџРѕР»СѓС‡РµРЅРёРµ ID РєР°РЅР°Р»Р°
     int get_channel_id() const {
         return channel_id;
     }
 };
 
-// Класс-менеджер MultiLogger
+// РљР»Р°СЃСЃ-РјРµРЅРµРґР¶РµСЂ MultiLogger
 template <typename Executor>
 class MultiLogger {
 private:
-    std::vector<std::shared_ptr<ILogger>> loggers; // Логгеры
-    Executor& executor;                            // Исполнитель задач
-    int idCounter = 1;                             // Уникальный идентификатор для логов
+    std::vector<std::shared_ptr<ILogger>> loggers; // Р›РѕРіРіРµСЂС‹
+    Executor& executor;                            // РСЃРїРѕР»РЅРёС‚РµР»СЊ Р·Р°РґР°С‡
+    int idCounter = 1;                             // РЈРЅРёРєР°Р»СЊРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РґР»СЏ Р»РѕРіРѕРІ
 
 public:
     explicit MultiLogger(Executor& exec) : executor(exec) {}
 
-    // Добавление нового логгера
+    // Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ Р»РѕРіРіРµСЂР°
     void addLogger(const std::shared_ptr<ILogger>& logger) {
-        // Привязываем логгер к каналу
-        // logger->setup_channel_id(static_cast<int>(loggers.size() + 1)); // ID канала начинается с 1
+        // РџСЂРёРІСЏР·С‹РІР°РµРј Р»РѕРіРіРµСЂ Рє РєР°РЅР°Р»Сѓ
+        // logger->setup_channel_id(static_cast<int>(loggers.size() + 1)); // ID РєР°РЅР°Р»Р° РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ 1
         if (logger->get_channel_id() == 0) {
-            // Если `channel_id` не установлен, задаем его автоматически
+            // Р•СЃР»Рё `channel_id` РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅ, Р·Р°РґР°РµРј РµРіРѕ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё
             logger->setup_channel_id(static_cast<int>(loggers.size() + 1));
         }
 
         loggers.push_back(logger);
     }
 
-    // Логирование
+    // Р›РѕРіРёСЂРѕРІР°РЅРёРµ
     void log(MessageStatus status, const std::string& description) {
         auto timePoint = std::chrono::system_clock::now();
         std::time_t time = std::chrono::system_clock::to_time_t(timePoint);
@@ -100,15 +100,15 @@ public:
         ctime_s(timeBuffer, sizeof(timeBuffer), &time);
 
         std::string timeStr(timeBuffer);
-        timeStr.pop_back(); // Убираем символ перевода строки
+        timeStr.pop_back(); // РЈР±РёСЂР°РµРј СЃРёРјРІРѕР» РїРµСЂРµРІРѕРґР° СЃС‚СЂРѕРєРё
 
-        // Цикл по всем логгерам
+        // Р¦РёРєР» РїРѕ РІСЃРµРј Р»РѕРіРіРµСЂР°Рј
         for (const auto& logger : loggers) {
             if (logger->isEnabled()) {
-                // Для каждого логгера создается собственный LogItem с channel_id
+                // Р”Р»СЏ РєР°Р¶РґРѕРіРѕ Р»РѕРіРіРµСЂР° СЃРѕР·РґР°РµС‚СЃСЏ СЃРѕР±СЃС‚РІРµРЅРЅС‹Р№ LogItem СЃ channel_id
                 LogItem item{ idCounter++, logger->get_channel_id(), timeStr, status, description }; // !!!!!!!!!!!!!!!!!
 
-                // Передаем задачу на исполнение через executor
+                // РџРµСЂРµРґР°РµРј Р·Р°РґР°С‡Сѓ РЅР° РёСЃРїРѕР»РЅРµРЅРёРµ С‡РµСЂРµР· executor
                 executor.SubmitTask(item.channel_id - 1, [logger, item]() {
                     logger->log(item);
                     });
@@ -116,7 +116,7 @@ public:
         }
     }
 
-    // Вывод всех логов
+    // Р’С‹РІРѕРґ РІСЃРµС… Р»РѕРіРѕРІ
     void printAll() const {
         for (const auto& logger : loggers) {
             logger->print();

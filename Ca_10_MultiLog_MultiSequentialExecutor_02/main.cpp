@@ -1,4 +1,4 @@
-﻿// Ca_10_MultiLog_MultiSequentialExecutor_02.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// Ca_10_MultiLog_MultiSequentialExecutor_02.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include "MultiSequentialExecutor.hpp"
