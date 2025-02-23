@@ -16,6 +16,8 @@ int main() {
     logger.Log(DateTimeFormat::WithDate_HH_MM, LogLevel::WARNING, "Low memory warning");
     logger.Log(DateTimeFormat::WithDate_HH_MM_SS_ms, LogLevel::FATAL, "Application", "critical error", "shutting down");
 
+
+    
     return 0;
 }
 

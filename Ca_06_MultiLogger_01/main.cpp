@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Logger.hpp"
 #include "RealLoggers.hpp"
+#include <thread>
 
 /*
     Итак в предыдущем проекте мы остановились на этом ->
@@ -55,11 +56,15 @@ int main() {
     logger.log(MessageStatus::SUCCESS, "Hello world");
     logger.log(MessageStatus::WARNING, "Good bye");
 
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
     // Выводим все логи для активных логгеров
     logger.printAll();
 
     logger.log(MessageStatus::SUCCESS, "Hello world");
     logger.log(MessageStatus::WARNING, "Good bye");
+
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 
     // Выводим все логи для активных логгеров
     logger.printAll();

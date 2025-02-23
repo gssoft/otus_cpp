@@ -35,6 +35,8 @@ int main() {
     // Перенес задержку в Stop() - там она более уместна
     console_log_service.Stop();
 
+    // std::this_thread::sleep_for(std::chrono::seconds(1));
+
     return 0;
 }
 

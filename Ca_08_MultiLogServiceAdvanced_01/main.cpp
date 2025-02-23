@@ -64,6 +64,8 @@ int main() {
     multi_log_service_adv.log(1, MessageStatus::WARNING, "Message2 on channel 2");
     multi_log_service_adv.log(1, MessageStatus::FATAL, "Message3 on channel 3");
 
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
     // Печатаем все логи
     multi_log_service_adv.printAll();
 

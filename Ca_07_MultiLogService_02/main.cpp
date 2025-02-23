@@ -63,6 +63,8 @@ int main() {
     multi_log_service.log(MessageStatus::WARNING, "Good bye");
     multi_log_service.log(MessageStatus::FATAL, "Somethings goes Baaaaaaad!");
 
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
     // Выводим все логи
     multi_log_service.printAll();
 
