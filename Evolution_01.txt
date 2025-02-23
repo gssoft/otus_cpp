@@ -29,7 +29,6 @@ Ca_03.
 //  - в контексте THreadPool - логировать используя только свой поток и не использовать внутренние потоки ThreadPool
 // 
 
-
 ConsoleLogger consoleLogger;
 Service<ConsoleLogger> log_service(std::move(consoleLogger));
 ThreadPool threadPool(log_service);
