@@ -83,5 +83,85 @@ MultiLogService<MultiLogger, SingleThreadExecutor> multi_log_service;
 Стало так:
 MultiLogServiceAdvanced<MultiLogger, MultiSequentialExecutor> multi_log_service_adv(3);
 MultiLogger c исполнением каждого Logger-а в отдельном потоке в контексте MultiSequentialExecutor.
---------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+Проект Ca_09_MultiLog_SequentialExecution_01
+------------------------------------------------------------------------------------
+Реализация MultiLogger (Поведение) в однопоточном потоке (Исполнения) SingleExecutor
+// Создаем SingleExecutor
+SingleExecutor executor;
+// Создаем MultiLogger, параметризованный SingleExecutor
+MultiLogger<SingleExecutor> multiLogger(executor);
 
+Программа представляет собой систему многоуровневого логирования с последовательным выполнением задач. Основные компоненты:
+
+    DateTimeFormatter
+        Форматирование времени в различных форматах (с датой и без)
+        Поддержка микро- и миллисекунд
+        Потокобезопасная реализация с использованием mutex
+    MultiLogger
+        Менеджер логгеров с поддержкой нескольких каналов
+        Последовательное выполнение через SingleExecutor
+        Управление несколькими логгерами одновременно
+    Логгеры
+        ConsoleLogger - вывод в консоль
+        MemoryLogger - хранение в памяти (ограниченный размер)
+        FileLogger - запись в файл
+    SingleExecutor
+        Последовательный исполнитель задач
+        Использование C++20 std::jthread
+        Безопасное завершение через std::stop_token
+--------------------------------------------------------------------------------------
+Проект Ca_10_MultiLog_MultiSequentialExecutor_02
+--------------------------------------------------------------------------------------
+Реализация MultiLogger (Поведение) в многопоточном потоке (Исполнения) MultiSequentialExecutor
+
+// Создаем MultiSequentialExecutor с 3 SingleExecutor
+MultiSequentialExecutor<SingleExecutor> executor(3);
+
+// Создаем MultiLogger, используя MultiSequentialExecutor
+MultiLogger<MultiSequentialExecutor<SingleExecutor>> multiLogger(executor);
+
+Программа представляет собой систему многоуровневого логирования с параллельным выполнением задач. Основные компоненты:
+
+    MultiSequentialExecutor
+        Управляет несколькими SingleExecutor для параллельного выполнения задач
+        Распределяет задачи между исполнителями по ID
+        Обеспечивает последовательное выполнение в каждом потоке
+    SingleExecutor
+        Последовательный исполнитель задач в отдельном потоке
+        Использует std::jthread и std::stop_token
+        Потокобезопасная очередь задач
+    MultiLogger
+        Менеджер логгеров с поддержкой нескольких каналов
+        Использует MultiSequentialExecutor для параллельного выполнения
+        Автоматическое присвоение ID каналам
+    Логгеры
+        ConsoleLogger - вывод в консоль
+        MemoryLogger - хранение в памяти
+        FileLogger - запись в файл
+    DateTimeFormatter
+        Форматирование времени в различных форматах
+        Потокобезопасная реализация
+        Поддержка микро- и миллисекунд
+--------------------------------------------------------------------------------------
+Проект Ca_11_MultiLog_MultiSequentialExecutor_Wrapper_01
+-------------------------------------------------------------------------------------
+MultiLoggerMultiThreaded<MultiLogger<MultiSequentialExecutor<SingleExecutor>>, // MultiLogger
+     MultiSequentialExecutor<SingleExecutor>> // MultiSequentialExecutor
+     multiLogger_multiThreaded_service(3);
+
+Если кто сразу не понял, это ОДНА строка кода. Шаблонная магия рулит.
+Вот это совсем уже трэш. Сделан Wrapper MultiLoggerMultiThreaded.
+Все компоненты понятны. Максимальная гибкость. Любую конструкцию можно обновлять отдельно от остальных.
+Там описание в проекте есть в main().
+
+Здесь представлена Эволюция программного кода Регистратора сообщений.
+Мы начали с ConsoleLogger logger в проекте CA_01:
+то есть c std::cout << "Hello World" << std::endl;
+
+и закончили вот таким монстром в проекте CA_11:
+MultiLoggerMultiThreaded<MultiLogger<MultiSequentialExecutor<SingleExecutor>>, // MultiLogger
+     MultiSequentialExecutor<SingleExecutor>> // MultiSequentialExecutor
+     multiLogger_multiThreaded_service(3);
+Максимальная гибкость и взаимозаменямость всех компонентов.
+--------------------------------------------------------------------------------------
