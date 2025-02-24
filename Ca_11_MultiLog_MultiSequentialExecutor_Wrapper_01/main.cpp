@@ -7,8 +7,9 @@
 
 int main() {
     // Создаем MultiLoggerMultiThreaded с n SingleExecutor
-    MultiLoggerMultiThreaded<MultiLogger<MultiSequentialExecutor<SingleExecutor>>, // MultiLogger
-        MultiSequentialExecutor<SingleExecutor>> // MultiSequentialExecutor
+    MultiLoggerMultiThreaded<                                   // Wrapper
+        MultiLogger<MultiSequentialExecutor<SingleExecutor>>,   // MultiLogger
+        MultiSequentialExecutor<SingleExecutor>>                // MultiSequentialExecutor
         multiLogger_multiThreaded_service(3);
 
     auto consoleLogger = std::make_shared<ConsoleLogger>();
