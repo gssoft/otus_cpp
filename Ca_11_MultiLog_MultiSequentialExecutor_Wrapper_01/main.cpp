@@ -6,7 +6,7 @@
 #include "RealLoggers.hpp"
 
 int main() {
-    // Создаем MultiLoggerMultiThreaded с n SingleExecutor
+    // Создаем Wrapper MultiLoggerMultiThreaded с n SingleExecutor
     MultiLoggerMultiThreaded<                                   // Wrapper
         MultiLogger<MultiSequentialExecutor<SingleExecutor>>,   // MultiLogger
         MultiSequentialExecutor<SingleExecutor>>                // MultiSequentialExecutor
@@ -16,15 +16,12 @@ int main() {
     consoleLogger->setup_channel_id(3);
     consoleLogger->enable(true);
     multiLogger_multiThreaded_service.addLogger(consoleLogger);
-    // multiLogger.addLogger(consoleLogger);
 
     auto memoryLogger = std::make_shared<MemoryLogger>();
     memoryLogger->setup_channel_id(2);
     memoryLogger->enable(true);
     multiLogger_multiThreaded_service.addLogger(memoryLogger);
    
-
-
     auto fileLogger = std::make_shared<FileLogger>();
     fileLogger->setup_channel_id(1);
     fileLogger->set_file_name("logs.txt");
