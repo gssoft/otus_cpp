@@ -10,7 +10,7 @@ int main() {
     MultiLoggerMultiThreaded<                                   // Wrapper
         MultiLogger<MultiSequentialExecutor<SingleExecutor>>,   // MultiLogger
         MultiSequentialExecutor<SingleExecutor>>                // MultiSequentialExecutor
-        multiLogger_multiThreaded_service(3);
+            multiLogger_multiThreaded_service(3);
 
     auto consoleLogger = std::make_shared<ConsoleLogger>();
     consoleLogger->setup_channel_id(3);
