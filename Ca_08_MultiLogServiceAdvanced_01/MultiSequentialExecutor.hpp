@@ -15,7 +15,7 @@ private:
     std::vector<std::thread> workers;                          // Рабочие потоки
     std::mutex mtx;                                            // Мьютекс для синхронизации
     std::condition_variable cv;                                // Условная переменная для обработки задач
-    bool stop = false;                                         // Флаг остановки
+    std::atomic_bool stop = false;                                         // Флаг остановки
     std::atomic<size_t> activeThreads{ 0 };                     // Подсчет активных потоков
 
     // Функция для выполнения задач из конкретного канала

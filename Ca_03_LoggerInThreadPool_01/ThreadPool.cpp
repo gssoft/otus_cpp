@@ -11,7 +11,7 @@ void ThreadPool::sequential_worker() {
 
             if (!sequential_running_ && sequential_queue_.empty()) {
                 AddLogItem(LogLevel::SUCCESS, "ThreadPool", "Worker thread stopping");
-                return;
+                // return;
             }
 
             if (!sequential_queue_.empty()) {

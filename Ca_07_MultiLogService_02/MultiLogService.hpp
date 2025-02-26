@@ -21,7 +21,7 @@ private:
     std::thread worker;
     std::mutex mtx;
     std::condition_variable cv;
-    bool stop = false;
+    std::atomic_bool stop = false;
 
     void run() {
         while (true) {

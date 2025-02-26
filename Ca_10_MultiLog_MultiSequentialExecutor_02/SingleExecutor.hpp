@@ -51,7 +51,7 @@ private:
 	std::queue<std::function<void()>> tasks;
 	std::mutex mtx;
 	std::condition_variable_any cond; // Условная переменная Any для работы с std::stop_token
-	bool done;
+	std::atomic_bool done;
 	std::jthread worker;
 };
 

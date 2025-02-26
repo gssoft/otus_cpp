@@ -22,3 +22,9 @@
 25.02.23 23:02:02.423 [1] [SUCCESS] Hello world
 25.02.23 23:02:02.423 [2] [WARNING] Good bye
 25.02.23 23:02:02.423 [3] [FATAL] Somethings goes Baaaaaaad!
+25.02.26 21:59:07.665 [1] [SUCCESS] Hello world
+25.02.26 21:59:07.679 [2] [WARNING] Good bye
+25.02.26 21:59:07.679 [3] [FATAL] Somethings goes Baaaaaaad!
+25.02.26 22:10:12.590 [1] [SUCCESS] Hello world
+25.02.26 22:10:12.590 [2] [WARNING] Good bye
+25.02.26 22:10:12.590 [3] [FATAL] Somethings goes Baaaaaaad!

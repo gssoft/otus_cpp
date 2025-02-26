@@ -169,7 +169,7 @@ private:
     LoggerType logger_;
     std::atomic_bool running_;
     DateTimeFormat defaultDateTimeFormat;
-    bool silentMode;
-    bool fatalOnlyMode;
+    std::atomic_bool silentMode;
+    std::atomic_bool fatalOnlyMode;
 };
 

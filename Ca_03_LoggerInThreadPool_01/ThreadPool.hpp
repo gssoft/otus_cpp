@@ -17,7 +17,7 @@ private:
     std::queue<std::function<void()>> sequential_queue_;    // Очередь задач
     std::mutex sequential_mutex_;                  // Мьютекс для защиты доступа к очереди
     std::condition_variable sequential_cv_;        // Условная переменная для управления очередью
-    bool sequential_running_ = true;               // Флаг работы потока
+    std::atomic_bool sequential_running_ = true;               // Флаг работы потока
     ILogger& logger_;                              // Логгер
 
     void sequential_worker();                      // Функция-рабочий, выполняет задачи из очереди

@@ -1,6 +1,3 @@
-// Ca_11_MultiLog_MultiSequentialExecutor_Wrapper_01.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 #include "MultiLoggerMultiThreaded.hpp"
 #include "RealLoggers.hpp"
