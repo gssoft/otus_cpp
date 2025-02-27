@@ -37,7 +37,7 @@ int main() {
     MultiLogServiceAdvanced // Service
         <MultiLogger,       // MultiLogger    
         MultiSequentialExecutor> // MultiSequentialExecutor 
-        multi_log_service_adv(3); // 3 потока. 
+        multi_log_service_adv(3); // MultiLogServiceAdvanced: MultiLogger + MultiSequentialExecutor 3 потока. 
 
     // Добавляем ConsoleLogger
     auto consoleLogger = std::make_shared<ConsoleLogger>();
